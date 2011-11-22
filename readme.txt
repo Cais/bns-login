@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer
 Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 1.7
+Tested up to: 3.3
+Stable tag: 1.8
 
 A plugin providing a link to the dashboard; and, a log in and out link.
 
@@ -72,6 +72,13 @@ Copy the contents of the included `bns-login-style.css` file (which contains a f
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 1.8 =
+* released ...
+* confirmed compatible with WordPress 3.3
+* added phpDoc Style documentation
+* cleaned up use of `wp_register`
+* general code tidying
+
 = 1.7 =
 * released June 2011
 * confirmed compatible with WordPress version 3.2-RC1
