@@ -73,7 +73,7 @@ Please stay current with your WordPress installation, your active theme, and you
 
 == Changelog ==
 = 1.8 =
-* released ...
+* released November 2011
 * confirmed compatible with WordPress 3.3
 * added phpDoc Style documentation
 * added conditional check for custom stylesheet

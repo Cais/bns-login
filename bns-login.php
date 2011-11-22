@@ -11,8 +11,6 @@ License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
 
-/*  Last revision: June 17, 2011 version 1.7  */
-
 /**
  * BNS Login plugin
  *
