@@ -65,9 +65,20 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 load_plugin_textdomain( 'bns-login' );
 // End BNS Login TextDomain
 
+/**
+ * Check installed WordPress version for compatibility
+ *
+ * @package     BNS_Login
+ * @since       1.0
+ * @internal    Version 3.0 being used in reference to home_url()
+ *
+ * @version     1.8
+ * Last revised November 22, 2011
+ * Re-write to be i18n compatible
+ */
 global $wp_version;
-$exit_ver_msg = 'BNS Login requires a minimum of WordPress 3.0, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
-if ( version_compare( $wp_version, "3.0", "<" ) ) { // for `home_url()`
+$exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.0, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
+if ( version_compare( $wp_version, "3.0", "<" ) ) {
     exit ( $exit_ver_msg );
 }
 
