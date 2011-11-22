@@ -76,6 +76,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * released ...
 * confirmed compatible with WordPress 3.3
 * added phpDoc Style documentation
+* added conditional check for custom stylesheet
 * cleaned up use of `wp_register`
 * general code tidying
 
