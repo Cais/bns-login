@@ -82,12 +82,24 @@ if ( version_compare( $wp_version, "3.0", "<" ) ) {
     exit ( $exit_ver_msg );
 }
 
-// Add BNS Login Scripts and Stylesheets
+/**
+ * Enqueue Plugin Scripts and Styles
+ *
+ * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
+ *
+ * @package BNS_Login
+ * @since   1.6
+ *
+ * @version 1.8
+ * Add conditional check for custom stylesheet
+ */
 function BNS_Login_Scripts_and_Styles() {
-        /* Scripts */
-        /* Styles */
-        wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . '/bns-login-style.css', array(), '1.8', 'screen' );
-        wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . '/bns-login-custom-style.css', array(), '1.8', 'screen' );
+        /* Enqueue Scripts */
+        /* Enqueue Styles */
+        wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), '1.8', 'screen' );
+        if ( is_readable( plugin_dir_path( __FILE__ ) . 'bns-login-custom-style.css' ) ) {
+            wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), '1.8', 'screen' );
+        }
 }
 add_action( 'wp_enqueue_scripts', 'BNS_Login_Scripts_and_Styles' );
 
