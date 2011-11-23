@@ -46,7 +46,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Last revised November 22, 2011
+ * Last revised November 23, 2011
  * @todo Add options page?
  */
 
@@ -112,54 +112,56 @@ add_action( 'wp_enqueue_scripts', 'BNS_Login_Scripts_and_Styles' );
  * @param string $args
  * @return mixed|string|void
  */
-function BNS_Login( $args = '' ) {
-        $values = array( 'login' => '', 'after_login' => '', 'logout' => '', 'goto' => '', 'separator' => '' );
-        $args = wp_parse_args( $args, $values );
+if ( ! function_exists( 'BNS_Login' ) ) {
+    function BNS_Login( $args = '' ) {
+            $values = array( 'login' => '', 'after_login' => '', 'logout' => '', 'goto' => '', 'separator' => '' );
+            $args = wp_parse_args( $args, $values );
 
-        /** Initialize $output - start with an empty string */
-        $output = '';
-        /**
-         * Defaults values:
-         * @var $login          string - anchor text for log in link
-         * @var $after_login    string - user is logged in message
-         * @var $logout         string - anchor text for log out link
-         * @var $goto           string - anchor text linking to "Dashboard"
-         * @var $separator      string - characters used to separate link/message texts
-         * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
-         */
-        $login        = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
-        $after_login  = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
-        $logout       = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
-        $goto         = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
-        $separator    = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
-        $sep          = '<span class="bns-login-separator">' . $separator . '</span>';
+            /** Initialize $output - start with an empty string */
+            $output = '';
+            /**
+             * Defaults values:
+             * @var $login          string - anchor text for log in link
+             * @var $after_login    string - user is logged in message
+             * @var $logout         string - anchor text for log out link
+             * @var $goto           string - anchor text linking to "Dashboard"
+             * @var $separator      string - characters used to separate link/message texts
+             * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
+             */
+            $login        = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
+            $after_login  = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
+            $logout       = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
+            $goto         = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
+            $separator    = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
+            $sep          = '<span class="bns-login-separator">' . $separator . '</span>';
 
-        /** The real work gets done next ...  */
-        $login_url = home_url( '/wp-admin/' );
-        if ( is_user_logged_in() ) {
-            $output .= '<div id="bns-logged-in" class="bns-login">' . $after_login . $sep;
-            /** Multisite - logout returns to Multisite main domain page */
-            if ( function_exists( 'get_current_site' ) ) {
-                $current_site = get_current_site();
-                /** @noinspection PhpUndefinedFieldInspection */
-                $home_domain = 'http://' . $current_site->domain . $current_site->path;
-                $logout_url = wp_logout_url( $home_domain );
+            /** The real work gets done next ...  */
+            $login_url = home_url( '/wp-admin/' );
+            if ( is_user_logged_in() ) {
+                $output .= '<div id="bns-logged-in" class="bns-login">' . $after_login . $sep;
+                /** Multisite - logout returns to Multisite main domain page */
+                if ( function_exists( 'get_current_site' ) ) {
+                    $current_site = get_current_site();
+                    /** @noinspection PhpUndefinedFieldInspection */
+                    $home_domain = 'http://' . $current_site->domain . $current_site->path;
+                    $logout_url = wp_logout_url( $home_domain );
+                } else {
+                    $logout_url = wp_logout_url( home_url() );
+                }
+                $output .= '<a href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
+                $output .= '<a href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
             } else {
-                $logout_url = wp_logout_url( home_url() );
+                /** if user is not logged in display login; or, register if allowed */
+                $output .= '<div id="bns-logged-out" class="bns-login">';
+                $output .= '<a href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
+                $output .= $sep;
+                $output .= wp_register( '', '', false );
+                $output .= '</div>';
             }
-            $output .= '<a href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
-            $output .= '<a href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
-        } else {
-            /** if user is not logged in display login; or, register if allowed */
-            $output .= '<div id="bns-logged-out" class="bns-login">';
-            $output .= '<a href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
-            $output .= $sep;
-            $output .= wp_register( '', '', false );
-            $output .= '</div>';
-        }
-        $output = apply_filters( 'BNS_Login', $output, $args );
+            $output = apply_filters( 'BNS_Login', $output, $args );
 
-        return $output;
+            return $output;
+    }
 }
 
 /**
@@ -175,9 +177,11 @@ function BNS_Login( $args = '' ) {
  *    goto        => anchor text to dashboard / Administration Panels
  *    separator   => character(s) used to separate the anchor texts
  */
-function Add_BNS_Login() {
-        /** BNS_Login pre-populated with empty parameters as guidelines */
-        echo BNS_Login( 'login=&after_login=&logout=&goto=&separator=' );
+if ( ! function_exists( 'Add_BNS_Login' ) ) {
+    function Add_BNS_Login() {
+            /** BNS_Login pre-populated with empty parameters as guidelines */
+            echo BNS_Login( 'login=&after_login=&logout=&goto=&separator=' );
+    }
 }
 add_action( 'wp_footer', 'Add_BNS_Login' );
 ?>
