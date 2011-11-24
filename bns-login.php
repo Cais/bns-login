@@ -154,8 +154,7 @@ if ( ! function_exists( 'BNS_Login' ) ) {
                 /** if user is not logged in display login; or, register if allowed */
                 $output .= '<div id="bns-logged-out" class="bns-login">';
                 $output .= '<a href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
-                $output .= $sep;
-                $output .= wp_register( '', '', false );
+                $output .= wp_register( $sep, '', false );
                 $output .= '</div>';
             }
             $output = apply_filters( 'BNS_Login', $output, $args );
