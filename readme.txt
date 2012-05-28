@@ -74,6 +74,7 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 1.8.1 =
 * confirmed compatible with WordPress 3.4
+* inline documentation and minor code formatting
 
 = 1.8 =
 * released November 2011
