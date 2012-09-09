@@ -1,9 +1,9 @@
 === BNS Login ===
 Contributors: cais
 Donate link: http://buynowshop.com/
-Tags: login, dashboard, admin, footer
+Tags: login, dashboard, admin, footer, plugin-only
 Requires at least: 3.0
-Tested up to: 3.4
+Tested up to: 3.4.2
 Stable tag: 1.8.1
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link.
