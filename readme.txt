@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 1.8.1
+Tested up to: 3.5-alpha
+Stable tag: 1.9
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link.
 
@@ -72,6 +72,9 @@ Copy the contents of the included `bns-login-style.css` file (which contains a f
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 1.9 =
+* Implemented OOP style class coding
+
 = 1.8.1 =
 * confirmed compatible with WordPress 3.4
 * inline documentation and minor code formatting
