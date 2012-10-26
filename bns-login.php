@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 1.9
+Version: 2.0
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     1.9
+ * @version     2.0
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2012, Edward Caissie
  *
@@ -45,26 +45,14 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 1.9
- * @date    September 18, 2012
- * Implement OOP style class coding
+ * @version 2.0
+ * @date    October 26, 2012
+ * Remove `load_textdomain` as redundant
  */
 
 class BNS_Login {
     /** Constructor */
     function __construct(){
-
-        /**
-         * BNS Login TextDomain
-         * Make plugin text available for translation (i18n)
-         *
-         * @package:    BNS_Login
-         * @since:      1.8
-         *
-         * @internal    Note: Translation files are expected to be found in the plugin root folder / directory.
-         * @internal    See Text Domain: bns-login
-         */
-        load_plugin_textdomain( 'bns-login' );
 
         /**
          * Check installed WordPress version for compatibility
@@ -92,6 +80,10 @@ class BNS_Login {
         /** Add BNS Login to Footer */
         add_action( 'wp_footer', array( $this, 'Add_BNS_Login' ) );
 
+        /** Add Shortcodes to Text Widgets and provide one for this plugin */
+        add_action( 'widget_text', 'do_shortcode' );
+        add_shortcode( 'bns_login', array( $this, 'Main' ) );
+
     }
 
     /**
@@ -102,19 +94,23 @@ class BNS_Login {
      * @package BNS_Login
      * @since   1.6
      *
+     * @uses    get_plugin_data
      * @uses    plugin_dir_path
      * @uses    plugin_dir_url
      * @uses    wp_enqueue_style
      *
-     * @version 1.8
-     * Add conditional check for custom stylesheet
+     * @version 2.0
+     * Add dynamic version numbering to styles
      */
     function Scripts_and_Styles() {
+        /** @var $bns_login_data - holds plugin data */
+        require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        $bns_login_data = get_plugin_data( __FILE__ );
         /* Enqueue Scripts */
         /* Enqueue Styles */
-        wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), '1.8', 'screen' );
+        wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), $bns_login_data['Version'], 'screen' );
         if ( is_readable( plugin_dir_path( __FILE__ ) . 'bns-login-custom-style.css' ) ) {
-            wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), '1.8', 'screen' );
+            wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
         }
     }
 
