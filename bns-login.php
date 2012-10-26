@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.0
+Version: 1.9
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.0
+ * @version     1.9
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2012, Edward Caissie
  *
@@ -45,15 +45,26 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 2.0
- * @date    October 26, 2012
- * Remove `load_textdomain` as redundant
- * Remove `Add_BNS_Login` as not used
+ * @version 1.9
+ * @date    September 18, 2012
+ * Implement OOP style class coding
  */
 
 class BNS_Login {
     /** Constructor */
     function __construct(){
+
+        /**
+         * BNS Login TextDomain
+         * Make plugin text available for translation (i18n)
+         *
+         * @package:    BNS_Login
+         * @since:      1.8
+         *
+         * @internal    Note: Translation files are expected to be found in the plugin root folder / directory.
+         * @internal    See Text Domain: bns-login
+         */
+        load_plugin_textdomain( 'bns-login' );
 
         /**
          * Check installed WordPress version for compatibility
@@ -62,14 +73,12 @@ class BNS_Login {
          * @since       1.0
          *
          * @uses        (global) wp_version
-         * @uses        add_action
-         * @uses        add_shortcode
          *
          * @internal    Version 3.0 being used in reference to home_url()
          *
-         * @version     2.0
-         * @date        October 26, 2012
-         * Add Shortcodes to Text Widgets and provide one for this plugin
+         * @version     1.8
+         * Last revised November 22, 2011
+         * Re-write to be i18n compatible
          */
         global $wp_version;
         $exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.0, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
@@ -83,10 +92,6 @@ class BNS_Login {
         /** Add BNS Login to Footer */
         add_action( 'wp_footer', array( $this, 'Add_BNS_Login' ) );
 
-        /** Add Shortcodes to Text Widgets and provide one for this plugin */
-        add_action( 'widget_text', 'do_shortcode' );
-        add_shortcode( 'bns_login', array( $this, 'Main' ) );
-
     }
 
     /**
@@ -97,23 +102,19 @@ class BNS_Login {
      * @package BNS_Login
      * @since   1.6
      *
-     * @uses    get_plugin_data
      * @uses    plugin_dir_path
      * @uses    plugin_dir_url
      * @uses    wp_enqueue_style
      *
-     * @version 2.0
-     * Add dynamic version numbering to styles
+     * @version 1.8
+     * Add conditional check for custom stylesheet
      */
     function Scripts_and_Styles() {
-        /** @var $bns_login_data - holds plugin data */
-        require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-        $bns_login_data = get_plugin_data( __FILE__ );
         /* Enqueue Scripts */
         /* Enqueue Styles */
-        wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), $bns_login_data['Version'], 'screen' );
+        wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), '1.8', 'screen' );
         if ( is_readable( plugin_dir_path( __FILE__ ) . 'bns-login-custom-style.css' ) ) {
-            wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
+            wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), '1.8', 'screen' );
         }
     }
 
@@ -151,12 +152,12 @@ class BNS_Login {
          * @var $separator      string - characters used to separate link/message texts
          * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
          */
-        $login          = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
-        $after_login    = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
-        $logout         = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
-        $goto           = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
-        $separator      = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
-        $sep            = '<span class="bns-login-separator">' . $separator . '</span>';
+        $login        = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
+        $after_login  = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
+        $logout       = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
+        $goto         = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
+        $separator    = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
+        $sep          = '<span class="bns-login-separator">' . $separator . '</span>';
 
         /** The real work gets done next ...  */
         $login_url = home_url( '/wp-admin/' );
@@ -183,6 +184,24 @@ class BNS_Login {
         $output = apply_filters( 'Main', $output, $args );
 
         return $output;
+    }
+
+    /**
+     * Add BNS Login
+     *
+     * @package BNS_Login
+     * @since 1.0
+     *
+     * Uses the following parameters (see defaults in BNS_Login function)
+     *    login       => anchor text to login URL
+     *    after_login => message showing end-user is logged in
+     *    logout      => anchor text to logout URL
+     *    goto        => anchor text to dashboard / Administration Panels
+     *    separator   => character(s) used to separate the anchor texts
+     */
+    function Add_BNS_Login() {
+        /** BNS_Login pre-populated with empty parameters as guidelines */
+        echo $this->Main( 'login=&after_login=&logout=&goto=&separator=' );
     }
 
 }
