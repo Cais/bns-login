@@ -79,10 +79,11 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.0 =
 * Compatible with WordPress 3.5
-* Remove `load_textdomain` as redundant
-* Add dynamic version numbering to styles
-* Add Shortcodes to Text Widgets and provide one for this plugin
-* Update 'readme' FAQ
+* Removed `load_textdomain` as redundant
+* Removed `Add_BNS_Login` as not used
+* Added dynamic version numbering to styles
+* Added Shortcodes to Text Widgets and provided one for this plugin `bns_login`
+* Updated 'readme' FAQ
 
 = 1.9 =
 * Implemented OOP style class coding

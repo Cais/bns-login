@@ -48,6 +48,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @version 2.0
  * @date    October 26, 2012
  * Remove `load_textdomain` as redundant
+ * Remove `Add_BNS_Login` as not used
  */
 
 class BNS_Login {
@@ -61,12 +62,14 @@ class BNS_Login {
          * @since       1.0
          *
          * @uses        (global) wp_version
+         * @uses        add_action
+         * @uses        add_shortcode
          *
          * @internal    Version 3.0 being used in reference to home_url()
          *
-         * @version     1.8
-         * Last revised November 22, 2011
-         * Re-write to be i18n compatible
+         * @version     2.0
+         * @date        October 26, 2012
+         * Add Shortcodes to Text Widgets and provide one for this plugin
          */
         global $wp_version;
         $exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.0, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
@@ -148,12 +151,12 @@ class BNS_Login {
          * @var $separator      string - characters used to separate link/message texts
          * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
          */
-        $login        = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
-        $after_login  = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
-        $logout       = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
-        $goto         = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
-        $separator    = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
-        $sep          = '<span class="bns-login-separator">' . $separator . '</span>';
+        $login          = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
+        $after_login    = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
+        $logout         = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
+        $goto           = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
+        $separator      = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
+        $sep            = '<span class="bns-login-separator">' . $separator . '</span>';
 
         /** The real work gets done next ...  */
         $login_url = home_url( '/wp-admin/' );
@@ -180,24 +183,6 @@ class BNS_Login {
         $output = apply_filters( 'Main', $output, $args );
 
         return $output;
-    }
-
-    /**
-     * Add BNS Login
-     *
-     * @package BNS_Login
-     * @since 1.0
-     *
-     * Uses the following parameters (see defaults in BNS_Login function)
-     *    login       => anchor text to login URL
-     *    after_login => message showing end-user is logged in
-     *    logout      => anchor text to logout URL
-     *    goto        => anchor text to dashboard / Administration Panels
-     *    separator   => character(s) used to separate the anchor texts
-     */
-    function Add_BNS_Login() {
-        /** BNS_Login pre-populated with empty parameters as guidelines */
-        echo $this->Main( 'login=&after_login=&logout=&goto=&separator=' );
     }
 
 }
