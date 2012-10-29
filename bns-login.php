@@ -48,10 +48,20 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @version 2.0
  * @date    October 29, 2012
  * Remove `load_textdomain` as redundant
+ * Add Shortcode functionality to text widgets
+ * Add Shortcode for this plugin
  */
 
 class BNS_Login {
-    /** Constructor */
+    /**
+     * Constructor
+     *
+     * @package BNS_Login
+     * @since   1.9
+     *
+     * @uses    add_action
+     * @uses    add_shortcode
+     */
     function __construct(){
 
         /**
@@ -79,6 +89,11 @@ class BNS_Login {
 
         /** Add BNS Login to Footer */
         add_action( 'wp_footer', array( $this, 'Add_BNS_Login' ) );
+
+        /** Add Shortcode functionality to text widgets */
+        add_action( 'widget_text', 'do_shortcode' );
+        /** Add Shortcode for this plugin */
+        add_shortcode( 'bns_login', array( $this, 'Add_BNS_login_shortcode' ) );
 
     }
 
@@ -176,6 +191,7 @@ class BNS_Login {
 
     /**
      * Add BNS Login
+     * Echos the Main function output
      *
      * @package BNS_Login
      * @since 1.0
@@ -190,6 +206,20 @@ class BNS_Login {
     function Add_BNS_Login() {
         /** BNS_Login pre-populated with empty parameters as guidelines */
         echo $this->Main( 'login=&after_login=&logout=&goto=&separator=' );
+    }
+
+    /**
+     * Add BNS Login Shortcode
+     * Returns the default Main function as the shortcode output
+     *
+     * @package BNS_login
+     * @since   2.0
+     *
+     * @return mixed|string|void
+     */
+    function Add_BNS_Login_shortcode() {
+        /** Return the Main function rather than echo */
+        return $this->Main();
     }
 
 }

@@ -74,6 +74,8 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.0 =
 * Remove `load_textdomain` as redundant
+* Add Shortcode functionality to text widgets
+* Add Shortcode for this plugin
 
 = 1.9 =
 * Implemented OOP style class coding
