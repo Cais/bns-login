@@ -88,12 +88,12 @@ class BNS_Login {
         add_action( 'wp_enqueue_scripts', array( $this, 'Scripts_and_Styles' ) );
 
         /** Add BNS Login to Footer */
-        add_action( 'wp_footer', array( $this, 'Add_BNS_Login' ) );
+        add_action( 'wp_footer', array( $this, 'add_bns_login' ) );
 
         /** Add Shortcode functionality to text widgets */
         add_action( 'widget_text', 'do_shortcode' );
         /** Add Shortcode for this plugin */
-        add_shortcode( 'bns_login', array( $this, 'Add_BNS_login_shortcode' ) );
+        add_shortcode( 'bns_login', array( $this, 'add_bns_login_shortcode' ) );
 
     }
 
@@ -140,7 +140,7 @@ class BNS_Login {
      *
      * @return  mixed|string|void
      */
-    function Main( $args = '' ) {
+    function bns_login_main( $args = '' ) {
         $values = array( 'login' => '', 'after_login' => '', 'logout' => '', 'goto' => '', 'separator' => '' );
         $args = wp_parse_args( $args, $values );
 
@@ -155,12 +155,23 @@ class BNS_Login {
          * @var $separator      string - characters used to separate link/message texts
          * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
          */
-        $login        = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
-        $after_login  = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
-        $logout       = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
-        $goto         = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
-        $separator    = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
-        $sep          = '<span class="bns-login-separator">' . $separator . '</span>';
+        $login          = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
+        $login          = apply_filters( 'bns_login_here', $login );
+
+        $after_login    = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
+        $after_login    = apply_filters( 'bns_login_after_login', $after_login );
+
+        $logout         = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
+        $logout         = apply_filters( 'bns_login_logout', $logout );
+
+        $goto           = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
+        $goto           = apply_filters( 'bns_login_goto', $goto );
+
+        $separator      = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
+        $separator      = apply_filters( 'bns_login_separator', $separator );
+
+        $sep            = '<span class="bns-login-separator">' . $separator . '</span>';
+        $sep            = apply_filters( 'bns_login_sep', $sep );
 
         /** The real work gets done next ...  */
         $login_url = home_url( '/wp-admin/' );
@@ -184,9 +195,9 @@ class BNS_Login {
             $output .= wp_register( $sep, '', false );
             $output .= '</div>';
         }
-        $output = apply_filters( 'Main', $output, $args );
 
-        return $output;
+        return apply_filters( 'bns_login_main', $output );
+
     }
 
     /**
@@ -203,9 +214,9 @@ class BNS_Login {
      *    goto        => anchor text to dashboard / Administration Panels
      *    separator   => character(s) used to separate the anchor texts
      */
-    function Add_BNS_Login() {
+    function add_bns_login() {
         /** BNS_Login pre-populated with empty parameters as guidelines */
-        echo $this->Main( 'login=&after_login=&logout=&goto=&separator=' );
+        echo $this->bns_login_main( 'login=&after_login=&logout=&goto=&separator=' );
     }
 
     /**
@@ -217,9 +228,9 @@ class BNS_Login {
      *
      * @return mixed|string|void
      */
-    function Add_BNS_Login_shortcode() {
+    function add_bns_login_shortcode() {
         /** Return the Main function rather than echo */
-        return $this->Main();
+        return $this->bns_login_main();
     }
 
 }

@@ -80,6 +80,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Add Shortcode functionality to text widgets
 * Add Shortcode for this plugin
 * Updated 'readme' with FAQ on shortcode use
+* Add filter hooks to all of the text output
 
 = 1.9 =
 * Implemented OOP style class coding
@@ -95,7 +96,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * added conditional check for custom stylesheet
 * cleaned up use of `wp_register`
 * general code tidying
-* wrap `BNS_Login` and `Add_BNS_Login` in `function_exists` conditionals
+* wrap `BNS_Login` and `add_bns_login` in `function_exists` conditionals
 
 = 1.7 =
 * released June 2011
