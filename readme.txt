@@ -72,6 +72,9 @@ Copy the contents of the included `bns-login-style.css` file (which contains a f
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.0 =
+* Remove `load_textdomain` as redundant
+
 = 1.9 =
 * Implemented OOP style class coding
 
