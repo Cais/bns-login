@@ -50,6 +50,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Remove `load_textdomain` as redundant
  * Add Shortcode functionality to text widgets
  * Add Shortcode for this plugin
+ * Refactored to use hooks instead of array elements
  */
 
 class BNS_Login {
@@ -128,8 +129,6 @@ class BNS_Login {
      * @package BNS_Login
      * @since   0.1
      *
-     * @param   string $args
-     *
      * @uses    apply_filters
      * @uses    get_current_site
      * @uses    home_url
@@ -139,11 +138,12 @@ class BNS_Login {
      * @uses    wp_register
      *
      * @return  mixed|string|void
+     *
+     * @version 2.0
+     * @date    October 29, 2012
+     * Refactored to use hooks instead of array elements
      */
-    function bns_login_main( $args = '' ) {
-        $values = array( 'login' => '', 'after_login' => '', 'logout' => '', 'goto' => '', 'separator' => '' );
-        $args = wp_parse_args( $args, $values );
-
+    function bns_login_main() {
         /** Initialize $output - start with an empty string */
         $output = '';
         /**
@@ -155,23 +155,12 @@ class BNS_Login {
          * @var $separator      string - characters used to separate link/message texts
          * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
          */
-        $login          = empty( $args['login'] ) ? sprintf( __( 'Log in here!', 'bns-login' ) ) : $args['login'];
-        $login          = apply_filters( 'bns_login_here', $login );
-
-        $after_login    = empty( $args['after_login'] ) ? sprintf( __( 'You are logged in!', 'bns-login' ) ) : $args['after_login'];
-        $after_login    = apply_filters( 'bns_login_after_login', $after_login );
-
-        $logout         = empty( $args['logout'] ) ? sprintf( __( 'Logout', 'bns-login' ) ) : $args['logout'];
-        $logout         = apply_filters( 'bns_login_logout', $logout );
-
-        $goto           = empty( $args['goto'] ) ? sprintf( __( 'Go to Dashboard', 'bns-login' ) ) : $args['goto'];
-        $goto           = apply_filters( 'bns_login_goto', $goto );
-
-        $separator      = empty( $args['separator'] ) ? sprintf( __( ' &deg;&deg; ' ) ) : $args['separator'];
-        $separator      = apply_filters( 'bns_login_separator', $separator );
-
-        $sep            = '<span class="bns-login-separator">' . $separator . '</span>';
-        $sep            = apply_filters( 'bns_login_sep', $sep );
+        $login          = apply_filters( 'bns_login_here',          sprintf( __( 'Log in here!', 'bns-login' ) ) );
+        $after_login    = apply_filters( 'bns_login_after_login',   sprintf( __( 'You are logged in!', 'bns-login' ) ) );
+        $logout         = apply_filters( 'bns_login_logout',        sprintf( __( 'Logout', 'bns-login' ) ) );
+        $goto           = apply_filters( 'bns_login_goto',          sprintf( __( 'Go to Dashboard', 'bns-login' ) ) );
+        $separator      = apply_filters( 'bns_login_separator',     sprintf( __( ' &deg;&deg; ' ) ) );
+        $sep            = apply_filters( 'bns_login_sep',           '<span class="bns-login-separator">' . $separator . '</span>' );
 
         /** The real work gets done next ...  */
         $login_url = home_url( '/wp-admin/' );
@@ -205,23 +194,22 @@ class BNS_Login {
      * Echos the Main function output
      *
      * @package BNS_Login
-     * @since 1.0
+     * @since   1.0
      *
-     * Uses the following parameters (see defaults in BNS_Login function)
-     *    login       => anchor text to login URL
-     *    after_login => message showing end-user is logged in
-     *    logout      => anchor text to logout URL
-     *    goto        => anchor text to dashboard / Administration Panels
-     *    separator   => character(s) used to separate the anchor texts
+     * @uses    bns_login_main
+     *
+     * @version 2.0
+     * @date    October 29, 2012
+     * Removed parameters - see changes to `bns_login_main`
      */
     function add_bns_login() {
         /** BNS_Login pre-populated with empty parameters as guidelines */
-        echo $this->bns_login_main( 'login=&after_login=&logout=&goto=&separator=' );
+        echo $this->bns_login_main();
     }
 
     /**
      * Add BNS Login Shortcode
-     * Returns the default Main function as the shortcode output
+     * Returns `bns_login_main` as the shortcode output
      *
      * @package BNS_login
      * @since   2.0

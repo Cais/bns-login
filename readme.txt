@@ -81,6 +81,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Add Shortcode for this plugin
 * Updated 'readme' with FAQ on shortcode use
 * Add filter hooks to all of the text output
+* Refactored `bns_login_main` to use hooks instead of array elements
 
 = 1.9 =
 * Implemented OOP style class coding
