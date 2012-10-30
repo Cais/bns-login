@@ -89,12 +89,12 @@ class BNS_Login {
         add_action( 'wp_enqueue_scripts', array( $this, 'Scripts_and_Styles' ) );
 
         /** Add BNS Login to Footer */
-        add_action( 'wp_footer', array( $this, 'add_bns_login' ) );
+        add_action( 'wp_footer', array( $this, 'bns_login_output' ) );
 
         /** Add Shortcode functionality to text widgets */
         add_action( 'widget_text', 'do_shortcode' );
         /** Add Shortcode for this plugin */
-        add_shortcode( 'bns_login', array( $this, 'add_bns_login_shortcode' ) );
+        add_shortcode( 'bns_login', array( $this, 'bns_login_main' ) );
 
     }
 
@@ -202,23 +202,9 @@ class BNS_Login {
      * @date    October 29, 2012
      * Removed parameters - see changes to `bns_login_main`
      */
-    function add_bns_login() {
-        /** BNS_Login pre-populated with empty parameters as guidelines */
+    function bns_login_output() {
+        /** Write to screen */
         echo $this->bns_login_main();
-    }
-
-    /**
-     * Add BNS Login Shortcode
-     * Returns `bns_login_main` as the shortcode output
-     *
-     * @package BNS_login
-     * @since   2.0
-     *
-     * @return mixed|string|void
-     */
-    function add_bns_login_shortcode() {
-        /** Return the Main function rather than echo */
-        return $this->bns_login_main();
     }
 
 }

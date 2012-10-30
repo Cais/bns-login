@@ -97,7 +97,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * added conditional check for custom stylesheet
 * cleaned up use of `wp_register`
 * general code tidying
-* wrap `BNS_Login` and `add_bns_login` in `function_exists` conditionals
+* wrap `BNS_Login` and `bns_login_output` in `function_exists` conditionals
 
 = 1.7 =
 * released June 2011
