@@ -60,27 +60,16 @@ class BNS_Login {
      * @package BNS_Login
      * @since   1.9
      *
+     * @uses    (global) wp_version
      * @uses    add_action
      * @uses    add_shortcode
      */
     function __construct(){
 
-        /**
-         * Check installed WordPress version for compatibility
-         *
-         * @package     BNS_Login
-         * @since       1.0
-         *
-         * @uses        (global) wp_version
-         *
-         * @internal    Version 3.0 being used in reference to home_url()
-         *
-         * @version     1.8
-         * Last revised November 22, 2011
-         * Re-write to be i18n compatible
-         */
+        /** Check installed WordPress version for compatibility */
         global $wp_version;
         $exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.0, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
+        /** Version 3.0 is used for `home_url` */
         if ( version_compare( $wp_version, "3.0", "<" ) ) {
             exit ( $exit_ver_msg );
         }
@@ -169,7 +158,7 @@ class BNS_Login {
             /** Multisite - logout returns to Multisite main domain page */
             if ( function_exists( 'get_current_site' ) ) {
                 $current_site = get_current_site();
-                /** @noinspection PhpUndefinedFieldInspection */
+                /** @var $home_domain - constructed url */
                 $home_domain = 'http://' . $current_site->domain . $current_site->path;
                 $logout_url = wp_logout_url( $home_domain );
             } else {
@@ -178,9 +167,10 @@ class BNS_Login {
             $output .= '<a href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
             $output .= '<a href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
         } else {
-            /** if user is not logged in display login; or, register if allowed */
+            /** Display login message */
             $output .= '<div id="bns-logged-out" class="bns-login">';
             $output .= '<a href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
+            /** Show register link if new users allowed in site settings */
             $output .= wp_register( $sep, '', false );
             $output .= '</div>';
         }
