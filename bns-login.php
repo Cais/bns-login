@@ -46,11 +46,12 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @version 2.0
- * @date    October 29, 2012
+ * @date    November 6, 2012
  * Remove `load_textdomain` as redundant
  * Add Shortcode functionality to text widgets
  * Add Shortcode for this plugin
  * Refactored to use hooks instead of array elements
+ * Add empty hooks before and after main output
  */
 
 class BNS_Login {
@@ -187,14 +188,22 @@ class BNS_Login {
      * @since   1.0
      *
      * @uses    bns_login_main
+     * @uses    do_action
      *
      * @version 2.0
-     * @date    October 29, 2012
+     * @date    November 6, 2012
      * Removed parameters - see changes to `bns_login_main`
+     * Add empty hooks before and after main output
      */
     function bns_login_output() {
-        /** Write to screen */
+        /** Add empty hook before output */
+        do_action( 'bns_login_before_output' );
+
+        /** Output to screen */
         echo $this->bns_login_main();
+
+        /** Add empty hook after output */
+        do_action( 'bns_login_after_output' );
     }
 
 }
