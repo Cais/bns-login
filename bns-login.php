@@ -151,9 +151,9 @@ class BNS_Login {
         $goto           = apply_filters( 'bns_login_goto',          sprintf( __( 'Go to Dashboard', 'bns-login' ) ) );
         $separator      = apply_filters( 'bns_login_separator',     sprintf( __( ' &deg;&deg; ' ) ) );
         $sep            = apply_filters( 'bns_login_sep',           '<span class="bns-login-separator">' . $separator . '</span>' );
+        $login_url      = apply_filters( 'bns_login_url',           home_url( '/wp-admin/' ) );
 
         /** The real work gets done next ...  */
-        $login_url = home_url( '/wp-admin/' );
         if ( is_user_logged_in() ) {
             $output .= '<div id="bns-logged-in" class="bns-login">' . $after_login . $sep;
             /** Multisite - logout returns to Multisite main domain page */
@@ -176,7 +176,7 @@ class BNS_Login {
             $output .= '</div>';
         }
 
-        return apply_filters( 'bns_login_main', $output );
+        return $output;
 
     }
 
