@@ -77,13 +77,14 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.0 =
 * Released November 2012
-* Remove `load_textdomain` as redundant
+* Add empty hooks before and after main output
+* Add filter hooks to all of the text output
 * Add Shortcode functionality to text widgets
 * Add Shortcode for this plugin
-* Updated 'readme' with FAQ on shortcode use
-* Add filter hooks to all of the text output
+* Add wrapping classes around output elements
 * Refactored `bns_login_main` to use hooks instead of array elements
-* Add empty hooks before and after main output
+* Remove `load_textdomain` as redundant
+* Updated 'readme' with FAQ on shortcode use
 
 = 1.9 =
 * Implemented OOP style class coding

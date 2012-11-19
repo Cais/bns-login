@@ -46,12 +46,15 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @version 2.0
- * @date    November 6, 2012
- * Remove `load_textdomain` as redundant
+ * @date    November 19, 2012
+ * Add empty hooks before and after main output
+ * Add filter hooks to all of the text output
  * Add Shortcode functionality to text widgets
  * Add Shortcode for this plugin
- * Refactored to use hooks instead of array elements
- * Add empty hooks before and after main output
+ * Add wrapping classes around output elements
+ * Refactored `bns_login_main` to use hooks instead of array elements
+ * Remove `load_textdomain` as redundant
+ * Updated 'readme' with FAQ on shortcode use
  */
 
 class BNS_Login {
@@ -130,8 +133,9 @@ class BNS_Login {
      * @return  mixed|string|void
      *
      * @version 2.0
-     * @date    October 29, 2012
-     * Refactored to use hooks instead of array elements
+     * @date    November 19, 2012
+     * Add wrapping classes around output elements
+     * Refactored to use filters instead of array elements
      */
     function bns_login_main() {
         /** Initialize $output - start with an empty string */
@@ -155,7 +159,7 @@ class BNS_Login {
 
         /** The real work gets done next ...  */
         if ( is_user_logged_in() ) {
-            $output .= '<div id="bns-logged-in" class="bns-login">' . $after_login . $sep;
+            $output .= '<div id="bns-logged-in" class="bns-login">' . '<span class="bns-after-login">' . $after_login . '</span>' . $sep;
             /** Multisite - logout returns to Multisite main domain page */
             if ( function_exists( 'get_current_site' ) ) {
                 $current_site = get_current_site();
@@ -165,12 +169,12 @@ class BNS_Login {
             } else {
                 $logout_url = wp_logout_url( home_url() );
             }
-            $output .= '<a href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
-            $output .= '<a href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
+            $output .= '<a class="bns-logout-url" href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
+            $output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
         } else {
             /** Display login message */
             $output .= '<div id="bns-logged-out" class="bns-login">';
-            $output .= '<a href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
+            $output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
             /** Show register link if new users allowed in site settings */
             $output .= wp_register( $sep, '', false );
             $output .= '</div>';
