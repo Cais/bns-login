@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.0
+Version: 2.0.1
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.0
+ * @version     2.0.1
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2013, Edward Caissie
  *
@@ -45,16 +45,11 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 2.0
- * @date    November 19, 2012
- * Add empty hooks before and after main output
- * Add filter hooks to all of the text output
- * Add Shortcode functionality to text widgets
- * Add Shortcode for this plugin
- * Add wrapping classes around output elements
- * Refactored `bns_login_main` to use hooks instead of array elements
- * Remove `load_textdomain` as redundant
- * Updated 'readme' with FAQ on shortcode use
+ * @version 2.0.1
+ * @date    February 2, 2013
+ * Documentation updates (copyright year, compatibility version)
+ * Added code block termination comments
+ * Changed MultiSite conditional to use `is_multisite`
  */
 
 class BNS_Login {
@@ -69,14 +64,13 @@ class BNS_Login {
      * @uses    add_shortcode
      */
     function __construct(){
-
         /** Check installed WordPress version for compatibility */
         global $wp_version;
         $exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.0, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
         /** Version 3.0 is used for `home_url` */
         if ( version_compare( $wp_version, "3.0", "<" ) ) {
             exit ( $exit_ver_msg );
-        }
+        } /** End if - version compare */
 
         /** Enqueue Scripts and Styles */
         add_action( 'wp_enqueue_scripts', array( $this, 'Scripts_and_Styles' ) );
@@ -89,7 +83,8 @@ class BNS_Login {
         /** Add Shortcode for this plugin */
         add_shortcode( 'bns_login', array( $this, 'bns_login_main' ) );
 
-    }
+    } /** End function - construct */
+
 
     /**
      * Enqueue Plugin Scripts and Styles
@@ -112,8 +107,9 @@ class BNS_Login {
         wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), '1.8', 'screen' );
         if ( is_readable( plugin_dir_path( __FILE__ ) . 'bns-login-custom-style.css' ) ) {
             wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), '1.8', 'screen' );
-        }
-    }
+        } /** End if - is readable */
+    } /** End function - scripts and styles */
+
 
     /**
      * BNS Login Main
@@ -125,6 +121,7 @@ class BNS_Login {
      * @uses    apply_filters
      * @uses    get_current_site
      * @uses    home_url
+     * @uses    is_multisite
      * @uses    is_user_logged_in
      * @uses    wp_logout_url
      * @uses    wp_parse_args
@@ -136,6 +133,10 @@ class BNS_Login {
      * @date    November 19, 2012
      * Add wrapping classes around output elements
      * Refactored to use filters instead of array elements
+     *
+     * @version 2.0.1
+     * @date    February 2, 2013
+     * Changed Multisite conditional to use `is_multisite`
      */
     function bns_login_main() {
         /** Initialize $output - start with an empty string */
@@ -161,14 +162,14 @@ class BNS_Login {
         if ( is_user_logged_in() ) {
             $output .= '<div id="bns-logged-in" class="bns-login">' . '<span class="bns-after-login">' . $after_login . '</span>' . $sep;
             /** Multisite - logout returns to Multisite main domain page */
-            if ( function_exists( 'get_current_site' ) ) {
+            if ( is_multisite() ) {
                 $current_site = get_current_site();
                 /** @var $home_domain - constructed url */
                 $home_domain = 'http://' . $current_site->domain . $current_site->path;
                 $logout_url = wp_logout_url( $home_domain );
             } else {
                 $logout_url = wp_logout_url( home_url() );
-            }
+            } /** End if - is multisite */
             $output .= '<a class="bns-logout-url" href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
             $output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
         } else {
@@ -178,11 +179,12 @@ class BNS_Login {
             /** Show register link if new users allowed in site settings */
             $output .= wp_register( $sep, '', false );
             $output .= '</div>';
-        }
+        } /** End if - is user logged in */
 
         return $output;
 
-    }
+    } /** End function - bns login main */
+
 
     /**
      * Add BNS Login
@@ -208,7 +210,12 @@ class BNS_Login {
 
         /** Add empty hook after output */
         do_action( 'bns_login_after_output' );
-    }
 
-}
+    } /** End function - bns login output */
+
+
+} /** End class - BNS Login */
+
+
+/** @var $bns_login - new instance of the BNS Login class */
 $bns_login = new BNS_Login();
