@@ -77,7 +77,9 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.0.1 =
 * Released February 2013
-* Confirmed compatible with WordPress 3.5.1
+* Documentation updates (copyright year, compatibility version)
+* Added code block termination comments
+* Changed MultiSite conditional to use `is_multisite`
 
 = 2.0 =
 * Released November 2012
