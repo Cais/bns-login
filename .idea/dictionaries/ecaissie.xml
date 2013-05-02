@@ -2,6 +2,8 @@
   <dictionary name="ecaissie">
     <words>
       <w>&amp;deg</w>
+      <w>loginform</w>
+      <w>rememberme</w>
       <w>siteurl</w>
       <w>wpmu</w>
     </words>

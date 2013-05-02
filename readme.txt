@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.0.2
+Stable tag: 2.1
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link. A shortcode is also available.
 
@@ -75,8 +75,11 @@ Yes you can! Actually this plugin makes it possible to use any properly written 
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
-= 2.0.2 =
+= 2.1 =
 * Released May 2013
+* Added plugin version data dynamically to enqueue calls
+* Added (enqueued) 'BNS Login Form Style' to style the form
+* Added `bns_login_form` (`wp_login_form` wrapper) for use as the shortcode output
 * Minor update for compatibility and code formatting
 
 = 2.0.1 =
