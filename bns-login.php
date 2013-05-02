@@ -89,7 +89,8 @@ class BNS_Login {
     /**
      * Enqueue Plugin Scripts and Styles
      *
-     * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
+     * Adds plugin stylesheet and allows for custom stylesheet to be added by
+     * end-user.
      *
      * @package BNS_Login
      * @since   1.6

@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only
 Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 2.0.1
+Tested up to: 3.6
+Stable tag: 2.0.2
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link. A shortcode is also available.
 
@@ -75,6 +75,10 @@ Yes you can! Actually this plugin makes it possible to use any properly written 
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.0.2 =
+* Released May 2013
+* Minor update for compatibility and code formatting
+
 = 2.0.1 =
 * Released February 2013
 * Documentation updates (copyright year, compatibility version)
