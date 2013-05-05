@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.0.2
+Version: 2.1
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.0.2
+ * @version     2.1
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2013, Edward Caissie
  *
@@ -235,6 +235,8 @@ class BNS_Login {
     /**
      * BNS Login Form
      * Borrowed from the core login form and used with the shortcode 'bns_login'
+     * This allows for the 'bns_login' shortcode to accept all of the parameters
+     * of the `wp_login_form` function as the shortcode attributes.
      *
      * @package BNS_Login
      * @since   2.1
@@ -249,11 +251,13 @@ class BNS_Login {
      * @uses    site_url
      * @uses    wp_login_form
      * @uses    wp_parse_args
+     *
+     * @return  string - the login form
      */
     function bns_login_form( $args ) {
 
         $defaults = shortcode_atts( array(
-            'echo'              => true,
+            'echo'              => false,
             'redirect'          => site_url( $_SERVER['REQUEST_URI'] ),
             'form_id'           => 'loginform',
             'label_username'    => __( 'Username', 'bns-login' ),
@@ -271,7 +275,7 @@ class BNS_Login {
 
         $login_args = wp_parse_args( $args, $defaults );
 
-        wp_login_form( $login_args );
+        return wp_login_form( $login_args );
 
     } /** End function - bns login form */
 

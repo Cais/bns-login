@@ -28,6 +28,10 @@
  */
 
 form#loginform {
+    clear: both;
+}
+
+form#loginform {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #E5E5E5;
     box-shadow: 0 4px 10px -1px rgba(200, 200, 200, 0.7);
@@ -47,7 +51,10 @@ form#loginform label {
     color: #777777;
     cursor: pointer;
     font-size: 14px;
-    vertical-align: middle;
+}
+
+.textwidget form#loginform {
+    text-align: left;
 }
 
 form#loginform .input,

@@ -80,7 +80,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Added plugin version data dynamically to enqueue calls
 * Added (enqueued) 'BNS Login Form Style' to style the form
 * Added `bns_login_form` (`wp_login_form` wrapper) for use as the shortcode output
-* Minor update for compatibility and code formatting
+* Updated for version compatibility and minor code formatting
 
 = 2.0.1 =
 * Released February 2013
