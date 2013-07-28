@@ -1,7 +1,7 @@
 === BNS Login ===
 Contributors: cais
 Donate link: http://buynowshop.com/
-Tags: login, dashboard, admin, footer, plugin-only
+Tags: login, dashboard, admin, footer, plugin-only, shortcode
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: 2.2
