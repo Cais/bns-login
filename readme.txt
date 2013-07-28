@@ -76,7 +76,7 @@ Please stay current with your WordPress installation, your active theme, and you
 
 == Changelog ==
 = 2.2 =
-* Release ...
+* Release July 2013
 * Added dynamic filter parameter `bns_login`
 
 = 2.1.1 =
