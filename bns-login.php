@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.1.1
+Version: 2.2
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.1.1
+ * @version     2.2
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2013, Edward Caissie
  *
@@ -57,6 +57,9 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * @version 2.1.1
  * @date    May 8, 2013
+ *
+ * @version 2.2
+ * @date    July 2013
  */
 
 class BNS_Login {
@@ -260,6 +263,10 @@ class BNS_Login {
      * @version 2.1.1
      * @date    May 8, 2013
      * Correct default redirect URL to point to 'wp-admin'
+     *
+     * @version 2.2
+     * @date    July 28, 2013
+     * Added dynamic filter parameter `bns_login`
      */
     function bns_login_form( $args ) {
 
@@ -278,7 +285,7 @@ class BNS_Login {
             'remember'          => true,
             'value_username'    => NULL,
             'value_remember'    => false
-        ), $args );
+        ), $args, 'bns_login' );
 
         $login_args = wp_parse_args( $args, $defaults );
 
