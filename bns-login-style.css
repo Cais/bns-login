@@ -26,6 +26,10 @@
  * @version 2.0.1
  * @date    February 3, 2013
  * Code and comment re-structuring
+ *
+ * @version 2.3
+ * @date    August 13, 2013
+ * Added Jetpack Infinite Scroll compatibility CSS to align text under credits
  */
 
 /**
@@ -37,7 +41,12 @@
 .bns-login {
     clear: both;
     text-align: center;
-} 
+}
+
+.blog-credits .bns-login {
+    clear: both;
+    text-align: right;
+}
 
 div#bns-logged-in {}
 div#bns-logged-in a {}

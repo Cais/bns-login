@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.2
+Version: 2.3
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.2
+ * @version     2.3
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2013, Edward Caissie
  *
@@ -45,12 +45,6 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 2.0.1
- * @date    February 2, 2013
- * Documentation updates (copyright year, compatibility version)
- * Added code block termination comments
- * Changed MultiSite conditional to use `is_multisite`
- *
  * @version 2.1
  * @date    May 2, 2013
  * Added `bns_login_form` for use with 'bns_login' shortcode
@@ -60,6 +54,10 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * @version 2.2
  * @date    July 2013
+ *
+ * @version 2.3
+ * @date    August 2013
+ * Added Jetpack Infinite Scroll compatibility
  */
 
 class BNS_Login {
@@ -87,6 +85,7 @@ class BNS_Login {
 
         /** Add BNS Login to Footer */
         add_action( 'wp_footer', array( $this, 'bns_login_output' ) );
+        add_filter( 'infinite_scroll_credit', array( $this, 'jetpack_infinite_scroll_compatibility' ) );
 
         /** Add Shortcode functionality to text widgets */
         add_action( 'widget_text', 'do_shortcode' );
@@ -236,6 +235,17 @@ class BNS_Login {
         do_action( 'bns_login_after_output' );
 
     } /** End function - bns login output */
+
+
+    function jetpack_infinite_scroll_compatibility() {
+
+        $credits = '<a href="http://wordpress.org/" rel="generator">Proudly powered by WordPress</a> ';
+        $credits .= sprintf( __( 'Theme: %1$s.', 'bns-login' ), wp_get_theme() );
+        $credits .= $this->bns_login_main();
+
+        return $credits;
+
+    }
 
 
     /**

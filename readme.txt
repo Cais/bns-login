@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only, shortcode
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.2
+Stable tag: 2.3
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link. A shortcode is also available.
 
@@ -75,6 +75,10 @@ Yes you can! Actually this plugin makes it possible to use any properly written 
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.3 =
+* Release August 2013
+* Added Jetpack Infinite Scroll compatibility
+
 = 2.2 =
 * Release July 2013
 * Added dynamic filter parameter `bns_login`
