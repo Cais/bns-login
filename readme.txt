@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only, shortcode
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 2.3
+Stable tag: 2.3.1
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link. A shortcode is also available.
 
@@ -70,11 +70,16 @@ Yes you can! Actually this plugin makes it possible to use any properly written 
   The license for this software can also likely be found here:
   http://www.gnu.org/licenses/gpl-2.0.html
 
-
 == Upgrade Notice ==
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.3.1 =
+* Release August 2013
+* Added documentation for Jetpack Infinite Scroll Compatibility (JISC) function
+* Added specific id wrappers for the credit details in JISC function
+* Added link to Theme reference pointing to Theme URI in JISC function
+
 = 2.3 =
 * Release August 2013
 * Added Jetpack Infinite Scroll compatibility

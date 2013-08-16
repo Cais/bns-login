@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.3
+Version: 2.3.1
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -58,6 +58,10 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @version 2.3
  * @date    August 2013
  * Added Jetpack Infinite Scroll compatibility
+ *
+ * @version 2.3.1
+ * @date    August 2013
+ * Added docs to and enhanced Jetpack Infinite Scroll Compatibility function
  */
 
 class BNS_Login {
@@ -237,15 +241,36 @@ class BNS_Login {
     } /** End function - bns login output */
 
 
+    /**
+     * Jetpack Infinite Scroll Compatibility
+     * Using a similar default $credits string as the Jetpack plugin this adds
+     * the BNS Login output to the Infinite Scroll footer display
+     *
+     * @package BNS_Login
+     * @since   2.3
+     *
+     * @uses    BNS_Login::bns_login_main
+     * @uses    __
+     * @uses    wp_get_theme
+     *
+     * @return  string
+     *
+     * @version 2.3.1
+     * @date    August 15, 2013
+     * Added specific id wrappers for the credit details
+     * Linked Theme reference to Theme URI
+     */
     function jetpack_infinite_scroll_compatibility() {
 
-        $credits = '<a href="http://wordpress.org/" rel="generator">Proudly powered by WordPress</a> ';
-        $credits .= sprintf( __( 'Theme: %1$s.', 'bns-login' ), wp_get_theme() );
+        $credits = '<div id="infinite-scroll-wordpress-credits">';
+        $credits .= '<a href="http://wordpress.org/" rel="generator">' . __( 'Proudly powered by WordPress', 'bns_login' ) . '</a> ';
+        $credits .= sprintf( '<span id="infinite-scroll-theme-credits">' . '<a href="' . wp_get_theme()->get( 'ThemeURI' ) . '">' . __( 'Theme: %1$s.', 'bns-login' ) . '</a></span>', wp_get_theme() );
+        $credits .= '</div><!-- #infinite-scroll-wordpress-credits -->';
         $credits .= $this->bns_login_main();
 
         return $credits;
 
-    }
+    } /** End function = jetpack infinite scroll compatibility */
 
 
     /**
