@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.3.1
+Version: 2.3.2
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.3
+ * @version     2.3.2
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2013, Edward Caissie
  *
@@ -45,16 +45,6 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 2.1
- * @date    May 2, 2013
- * Added `bns_login_form` for use with 'bns_login' shortcode
- *
- * @version 2.1.1
- * @date    May 8, 2013
- *
- * @version 2.2
- * @date    July 2013
- *
  * @version 2.3
  * @date    August 2013
  * Added Jetpack Infinite Scroll compatibility
@@ -62,6 +52,10 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @version 2.3.1
  * @date    August 2013
  * Added docs to and enhanced Jetpack Infinite Scroll Compatibility function
+ *
+ * @version 2.3.2
+ * @date    December 2013
+ * Add the option to put custom stylesheet in `/wp-content/` folder
  */
 
 class BNS_Login {
@@ -130,9 +124,21 @@ class BNS_Login {
         /* Enqueue Styles */
         wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), $bns_login_data['Version'], 'screen' );
         wp_enqueue_style( 'BNS-Login-Form-Style', plugin_dir_url( __FILE__ ) . 'bns-login-form-style.css', array(), $bns_login_data['Version'], 'screen' );
-        /** Add custom styles */
+
+        /**
+         * Add custom styles
+         * NB: This location will be killed when plugin is updated due to core
+         * WordPress functionality - place the custom stylesheet directly in
+         * the /wp-content/ folder for future proofing your custom styles.
+         */
         if ( is_readable( plugin_dir_path( __FILE__ ) . 'bns-login-custom-style.css' ) ) {
             wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
+        } /** End if - is readable */
+
+        /** For placing the custom stylesheet in the /wp-content/ folder */
+        /** @todo Find alternative to using WP_CONTENT_DIR constant? */
+        if ( is_readable( WP_CONTENT_DIR . '/bns-login-custom-style.css' ) ) {
+            wp_enqueue_style( 'BNS-Login-Custom-Style', content_url() . '/bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
         } /** End if - is readable */
 
     } /** End function - scripts and styles */
@@ -270,7 +276,7 @@ class BNS_Login {
 
         return $credits;
 
-    } /** End function = jetpack infinite scroll compatibility */
+    } /** End function - jetpack infinite scroll compatibility */
 
 
     /**
