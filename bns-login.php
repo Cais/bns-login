@@ -80,7 +80,7 @@ class BNS_Login {
 		/** Check installed WordPress version for compatibility */
 		global $wp_version;
 		$exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.6, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
-		/** Version 3.6 is used for `shortcode_atts` options filter parameter */
+		/** Version 3.6 is used for `shortcode_atts` optional filter parameter */
 		if ( version_compare( $wp_version, "3.6", "<" ) ) {
 			exit ( $exit_ver_msg );
 		}
@@ -109,6 +109,14 @@ class BNS_Login {
 		/** Add Shortcode for this plugin */
 		add_shortcode( 'bns_login', array( $this, 'bns_login_form' ) );
 
+		/** Add Plugin Row Meta details */
+		add_filter(
+			'plugin_row_meta', array(
+				$this,
+				'bns_login_plugin_meta'
+			), 10, 2
+		);
+
 	} /** End function - construct */
 
 
@@ -121,6 +129,7 @@ class BNS_Login {
 	 * @package BNS_Login
 	 * @since   1.6
 	 *
+	 * @uses	BNS_Login::plugin_data
 	 * @uses    plugin_dir_path
 	 * @uses    plugin_dir_url
 	 * @uses    wp_enqueue_style
@@ -132,12 +141,14 @@ class BNS_Login {
 	 * @date    May 2, 2013
 	 * Added plugin version data dynamically to enqueue calls
 	 * Added (enqueued) 'BNS Login Form Style' to style the form
+	 *
+	 * @version	2.3.3
+	 * @date	March 29, 2014
+	 * Extracted `plugin_data` into its own method
 	 */
 	function Scripts_and_Styles() {
-		/** Call the wp-admin plugin code */
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		/** @var $bnsfc_data - holds the plugin header data */
-		$bns_login_data = get_plugin_data( __FILE__ );
+
+		$bns_login_data = $this->plugin_data();
 
 		/* Enqueue Styles */
 		wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), $bns_login_data['Version'], 'screen' );
