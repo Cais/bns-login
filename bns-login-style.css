@@ -37,19 +37,25 @@
  * To maintain your custom styles through future updates make all of your edits
  * to the "custom" stylesheets as those made in this one will be over-written.
  */
-  
+
 .bns-login {
-    clear: both;
-    text-align: center;
+	clear: both;
+	text-align: center;
 }
 
 .blog-credits .bns-login {
-    clear: both;
-    text-align: right;
+	clear: both;
+	text-align: right;
 }
 
-div#bns-logged-in {}
-div#bns-logged-in a {}
+div#bns-logged-in {
+}
 
-div#bns-logged-out {}
-div#bns-logged-out a {}
+div#bns-logged-in a {
+}
+
+div#bns-logged-out {
+}
+
+div#bns-logged-out a {
+}
