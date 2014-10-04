@@ -2,9 +2,9 @@
 Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only, shortcode
-Requires at least: 3.6
-Tested up to: 3.9
-Stable tag: 2.3.3
+Requires at least: 3.8
+Tested up to: 4.0
+Stable tag: 2.4
 
 This plugin provides a link, in the theme footer area, to the dashboard when logged in as well as a log out link. A shortcode is also available.
 
@@ -50,7 +50,7 @@ Yes you can! Actually this plugin makes it possible to use any properly written 
 2. Logged out text.
 
 == Other Notes ==
-* Copyright 2009-2013  Edward Caissie  (email : edward.caissie@gmail.com)
+* Copyright 2009-2014  Edward Caissie  (email : edward.caissie@gmail.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 2,
@@ -74,6 +74,12 @@ Yes you can! Actually this plugin makes it possible to use any properly written 
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.4 =
+* Released October 2014
+* Added `dashicons` dependency to the main stylesheet
+* Update copyright year references to include 2014 in all files
+* Minor whitespace, documentation, and code formatting changes
+
 = 2.3.3 =
 * Released March 2014
 * Inline documentation, version compatibility, and copyright years updated

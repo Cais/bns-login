@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.3.3
+Version: 2.3.3.1
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -45,21 +45,16 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version     2.3
- * @date        August 2013
- * Added Jetpack Infinite Scroll compatibility
- *
- * @version     2.3.1
- * @date        August 2013
- * Added docs to and enhanced Jetpack Infinite Scroll Compatibility function
- *
  * @version     2.3.2
  * @date        December 2013
  * Add the option to put custom stylesheet in `/wp-content/` folder
  *
- * @version	2.3.3
- * @date	March 2014
+ * @version     2.3.3
+ * @date        March 2014
  * Inline documentation, version compatibility, and copyright years updated
+ *
+ * @version     2.4
+ * @date        October 2014
  */
 class BNS_Login {
 	/**
@@ -68,20 +63,24 @@ class BNS_Login {
 	 * @package          BNS_Login
 	 * @since            1.9
 	 *
-	 * @uses    (global) wp_version
+	 * @uses             (global) wp_version
 	 * @uses             add_action
 	 * @uses             add_shortcode
 	 *
-	 * @version	2.3.3
-	 * @date	March 29, 2014
+	 * @version          2.3.3
+	 * @date             March 29, 2014
 	 * Updated required WordPress version to 3.6
+	 *
+	 * @version          2.4
+	 * @date             October 4, 2014
+	 * Updated required version check to 3.8 for `dashicons` inclusion
 	 */
 	function __construct() {
 		/** Check installed WordPress version for compatibility */
 		global $wp_version;
-		$exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.6, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
-		/** Version 3.6 is used for `shortcode_atts` optional filter parameter */
-		if ( version_compare( $wp_version, "3.6", "<" ) ) {
+		$exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.8, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
+		/** Version 3.8 is required for `dashicons` inclusion */
+		if ( version_compare( $wp_version, "3.8", "<" ) ) {
 			exit ( $exit_ver_msg );
 		}
 		/** End if - version compare */
@@ -90,12 +89,14 @@ class BNS_Login {
 		add_action(
 			'wp_enqueue_scripts', array(
 				$this,
-				'Scripts_and_Styles'
+				'scripts_and_styles'
 			)
 		);
 
 		/** Add BNS Login to Footer */
 		add_action( 'wp_footer', array( $this, 'bns_login_output' ) );
+
+		/** Add Jetpack compatibility for infinite scroll */
 		add_filter(
 			'infinite_scroll_credit', array(
 				$this,
@@ -117,7 +118,8 @@ class BNS_Login {
 			), 10, 2
 		);
 
-	} /** End function - construct */
+	}
+	/** End function - construct */
 
 
 	/**
@@ -126,32 +128,36 @@ class BNS_Login {
 	 * Adds plugin stylesheet and allows for custom stylesheet to be added by
 	 * end-user.
 	 *
-	 * @package BNS_Login
-	 * @since   1.6
+	 * @package    BNS_Login
+	 * @since      1.6
 	 *
-	 * @uses	BNS_Login::plugin_data
-	 * @uses    plugin_dir_path
-	 * @uses    plugin_dir_url
-	 * @uses    wp_enqueue_style
+	 * @uses       BNS_Login::plugin_data
+	 * @uses       plugin_dir_path
+	 * @uses       plugin_dir_url
+	 * @uses       wp_enqueue_style
 	 *
-	 * @version 1.8
+	 * @version    1.8
 	 * Add conditional check for custom stylesheet
 	 *
-	 * @version 2.1
-	 * @date    May 2, 2013
+	 * @version    2.1
+	 * @date       May 2, 2013
 	 * Added plugin version data dynamically to enqueue calls
 	 * Added (enqueued) 'BNS Login Form Style' to style the form
 	 *
-	 * @version	2.3.3
-	 * @date	March 29, 2014
+	 * @version    2.3.3
+	 * @date       March 29, 2014
 	 * Extracted `plugin_data` into its own method
+	 *
+	 * @version    2.4
+	 * @date       October 4, 2014
+	 * Add `dashicons` dependency to main style sheet providing access to the icons
 	 */
-	function Scripts_and_Styles() {
+	function scripts_and_styles() {
 
 		$bns_login_data = $this->plugin_data();
 
 		/* Enqueue Styles */
-		wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array(), $bns_login_data['Version'], 'screen' );
+		wp_enqueue_style( 'BNS-Login-Style', plugin_dir_url( __FILE__ ) . 'bns-login-style.css', array( 'dashicons' ), $bns_login_data['Version'], 'screen' );
 		wp_enqueue_style( 'BNS-Login-Form-Style', plugin_dir_url( __FILE__ ) . 'bns-login-form-style.css', array(), $bns_login_data['Version'], 'screen' );
 
 		/**
@@ -172,7 +178,8 @@ class BNS_Login {
 		}
 		/** End if - is readable */
 
-	} /** End function - scripts and styles */
+	}
+	/** End function - scripts and styles */
 
 
 	/**
@@ -250,7 +257,8 @@ class BNS_Login {
 
 		return $output;
 
-	} /** End function - bns login main */
+	}
+	/** End function - bns login main */
 
 
 	/**
@@ -278,7 +286,8 @@ class BNS_Login {
 		/** Add empty hook after output */
 		do_action( 'bns_login_after_output' );
 
-	} /** End function - bns login output */
+	}
+	/** End function - bns login output */
 
 
 	/**
@@ -310,7 +319,8 @@ class BNS_Login {
 
 		return $credits;
 
-	} /** End function - jetpack infinite scroll compatibility */
+	}
+	/** End function - jetpack infinite scroll compatibility */
 
 
 	/**
@@ -390,7 +400,8 @@ class BNS_Login {
 		$plugin_data = get_plugin_data( __FILE__ );
 
 		return $plugin_data;
-	} /** End function - plugin data */
+	}
+	/** End function - plugin data */
 
 
 	/**
@@ -429,15 +440,12 @@ class BNS_Login {
 		return $links;
 
 	}
-
 	/** End function - plugin meta */
-
 
 
 }
 
 /** End class - BNS Login */
-
 
 /** @var $bns_login - new instance of the BNS Login class */
 $bns_login = new BNS_Login();

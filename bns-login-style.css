@@ -1,7 +1,7 @@
 /**
  * This file is part of BNS Login
  *
- * Copyright 2009-2013  Edward Caissie  (email : edward.caissie@gmail.com)
+ * Copyright 2009-2014  Edward Caissie  (email : edward.caissie@gmail.com)
  *
  * BNS Login is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2, as published by the
@@ -23,17 +23,14 @@
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 2.0.1
- * @date    February 3, 2013
- * Code and comment re-structuring
- *
- * @version 2.3
- * @date    August 13, 2013
- * Added Jetpack Infinite Scroll compatibility CSS to align text under credits
+ * @version	2.4
+ * @date	October 4, 2014
+ * Minor inline documentation updates for clarification
  */
 
 /**
- * Copy and paste below basic style elements into `bns-login-custom-style.css`
+ * Use the basic style elements below in `bns-login-custom-style.css` as a start
+ *
  * To maintain your custom styles through future updates make all of your edits
  * to the "custom" stylesheets as those made in this one will be over-written.
  */
@@ -48,6 +45,7 @@
 	text-align: right;
 }
 
+/** Placeholders */
 div#bns-logged-in {
 }
 
