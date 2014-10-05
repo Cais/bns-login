@@ -79,6 +79,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Added filter `dashicons` dependency to the main stylesheet
 * Added toggle to use `dashicons` instead of text
 * Added some basic sanitization to URL components and structures
+* Added `is_ssl()` to detect correct protocol for logout return URL
 * Update copyright year references to include 2014 in all files
 * Minor whitespace, documentation, and code formatting changes
 * Defined `BNS_CUSTOM_PATH` and `BNS_CUSTOM_URL` for customizations

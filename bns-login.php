@@ -210,6 +210,7 @@ class BNS_Login {
 	 * @uses    get_current_site
 	 * @uses    home_url
 	 * @uses    is_multisite
+	 * @uses    is_ssl
 	 * @uses    is_user_logged_in
 	 * @uses    wp_logout_url
 	 * @uses    wp_parse_args
@@ -230,6 +231,7 @@ class BNS_Login {
 	 * @date    October 5, 2014
 	 * Added filter toggle to use `dashicons` instead of text
 	 * Added some basic sanitization to URL components and structures
+	 * Added `is_ssl()` to detect correct protocol for logout return URL
 	 */
 	function bns_login_main() {
 		/** Initialize $output - start with an empty string */
@@ -273,12 +275,12 @@ class BNS_Login {
 		/** The real work gets done next ...  */
 		if ( is_user_logged_in() ) {
 			$output .= '<div id="bns-logged-in" class="bns-login">' . '<span class="bns-after-login">' . $after_login . '</span>' . $sep;
-			/** Multisite - logout returns to Multisite main domain page */
+			/** Multisite - logout returns to current site home page */
 			if ( is_multisite() ) {
 				$current_site = get_current_site();
-				/** @var $home_domain - constructed url */
-				$home_domain = 'http://' . $current_site->domain . $current_site->path;
-				$logout_url  = wp_logout_url( $home_domain );
+				$protocol     = is_ssl() ? 'https://' : 'http://';
+				$home_domain  = $protocol . $current_site->domain . $current_site->path;
+				$logout_url   = wp_logout_url( $home_domain );
 			} else {
 				$logout_url = wp_logout_url( home_url() );
 			}
