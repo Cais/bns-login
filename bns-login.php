@@ -74,6 +74,7 @@ class BNS_Login {
 	 * @version          2.4
 	 * @date             October 4, 2014
 	 * Updated required version check to 3.8 for `dashicons` inclusion
+	 * Defined `BNS_CUSTOM_PATH` and `BNS_CUSTOM_URL` for customizations
 	 */
 	function __construct() {
 		/** Check installed WordPress version for compatibility */
@@ -118,6 +119,16 @@ class BNS_Login {
 			), 10, 2
 		);
 
+		/** Define location for BNS plugin customizations */
+		if ( ! defined( 'BNS_CUSTOM_PATH' ) ) {
+			define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
+		}
+		/** end if - not defined */
+		if ( ! defined( 'BNS_CUSTOM_URL' ) ) {
+			define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
+		}
+		/** end if - not defined */
+
 	}
 	/** End function - construct */
 
@@ -151,6 +162,7 @@ class BNS_Login {
 	 * @version    2.4
 	 * @date       October 4, 2014
 	 * Added `dashicons` dependency to main style sheet providing access to the icons
+	 * Implement the use of `../wp-content/bns-customs/` for customizations
 	 */
 	function scripts_and_styles() {
 
@@ -162,19 +174,20 @@ class BNS_Login {
 
 		/**
 		 * Add custom styles
-		 * NB: This location will be killed when plugin is updated due to core
-		 * WordPress functionality - place the custom stylesheet directly in
-		 * the /wp-content/ folder for future proofing your custom styles.
+		 * NB: This location will be over-written when the plugin is updated due
+		 * to core WordPress functionality. Please place your custom stylesheet
+		 * in the /wp-content/bns-customs/ folder (you may need to created this
+		 * via this FTP) to better future proof your customizations.
+		 * @Deprecated  2.4
 		 */
 		if ( is_readable( plugin_dir_path( __FILE__ ) . 'bns-login-custom-style.css' ) ) {
 			wp_enqueue_style( 'BNS-Login-Custom-Style', plugin_dir_url( __FILE__ ) . 'bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
 		}
 		/** End if - is readable */
 
-		/** For placing the custom stylesheet in the /wp-content/ folder */
-		/** @todo Find alternative to using WP_CONTENT_DIR constant? */
-		if ( is_readable( WP_CONTENT_DIR . '/bns-login-custom-style.css' ) ) {
-			wp_enqueue_style( 'BNS-Login-Custom-Style', content_url() . '/bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
+		/** Read the custom stylesheet from ../wp-content/bns-customs/ */
+		if ( is_readable( BNS_CUSTOM_PATH . 'bns-login-custom-style.css' ) ) {
+			wp_enqueue_style( 'BNS-Login-Custom-Style', BNS_CUSTOM_URL . 'bns-login-custom-style.css', array(), $bns_login_data['Version'], 'screen' );
 		}
 		/** End if - is readable */
 
