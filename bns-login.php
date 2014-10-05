@@ -199,36 +199,38 @@ class BNS_Login {
 	 * BNS Login Main
 	 * Main function that will accept parameters
 	 *
-	 * @package BNS_Login
-	 * @since   0.1
+	 * @package     BNS_Login
+	 * @since       0.1
 	 *
-	 * @uses    add_filter
-	 * @uses    apply_filters
-	 * @uses    esc_attr
-	 * @uses    esc_html
-	 * @uses    esc_url
-	 * @uses    get_current_site
-	 * @uses    home_url
-	 * @uses    is_multisite
-	 * @uses    is_ssl
-	 * @uses    is_user_logged_in
-	 * @uses    wp_logout_url
-	 * @uses    wp_parse_args
-	 * @uses    wp_register
+	 * @uses        add_filter
+	 * @uses        apply_filters
+	 * @uses        esc_attr
+	 * @uses        esc_html
+	 * @uses        esc_url
+	 * @uses        get_current_site
+	 * @uses        home_url
+	 * @uses        is_multisite
+	 * @uses        is_ssl
+	 * @uses        is_user_logged_in
+	 * @uses        wp_logout_url
+	 * @uses        wp_parse_args
+	 * @uses        wp_register
+	 *
+	 * @internal    Opus Primus (v1.3+) contains code to activate Dashicons
 	 *
 	 * @return  mixed|string|void
 	 *
-	 * @version 2.0
-	 * @date    November 19, 2012
+	 * @version     2.0
+	 * @date        November 19, 2012
 	 * Add wrapping classes around output elements
 	 * Refactored to use filters instead of array elements
 	 *
-	 * @version 2.0.1
-	 * @date    February 2, 2013
+	 * @version     2.0.1
+	 * @date        February 2, 2013
 	 * Changed Multisite conditional to use `is_multisite`
 	 *
-	 * @version 2.4
-	 * @date    October 5, 2014
+	 * @version     2.4
+	 * @date        October 5, 2014
 	 * Added filter toggle to use `dashicons` instead of text
 	 * Added some basic sanitization to URL components and structures
 	 * Added `is_ssl()` to detect correct protocol for logout return URL
@@ -244,31 +246,28 @@ class BNS_Login {
 		 * @var $goto           string - anchor text linking to "Dashboard"
 		 * @var $separator      string - characters used to separate link/message texts
 		 * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
+		 *
+		 * @internal *_title is used to preserve the default text strings if dashicons are used
 		 */
-		$login       = esc_attr( apply_filters( 'bns_login_here', sprintf( __( 'Log in here!', 'bns-login' ) ) ) );
-		$login_title = $login;
-
-		$after_login = esc_html( apply_filters( 'bns_login_after_login', sprintf( __( 'You are logged in!', 'bns-login' ) ) ) );
-
-		$logout       = esc_attr( apply_filters( 'bns_login_logout', sprintf( __( 'Logout', 'bns-login' ) ) ) );
-		$logout_title = $logout;
-
-		$goto       = esc_attr( apply_filters( 'bns_login_goto', sprintf( __( 'Go to Dashboard', 'bns-login' ) ) ) );
-		$goto_title = $goto;
-
-		$separator = esc_html( apply_filters( 'bns_login_separator', sprintf( __( ' &deg;&deg; ' ) ) ) );
-		$sep       = esc_html( apply_filters( 'bns_login_sep', '<span class="bns-login-separator">' . $separator . '</span>' ) );
-
-		$login_url = esc_url( apply_filters( 'bns_login_url', home_url( '/wp-admin/' ) ) );
+		$login        = apply_filters( 'bns_login_here', sprintf( __( 'Log in here!', 'bns-login' ) ) );
+		$login_title  = esc_attr( $login );
+		$after_login  = apply_filters( 'bns_login_after_login', sprintf( __( 'You are logged in!', 'bns-login' ) ) );
+		$logout       = apply_filters( 'bns_login_logout', sprintf( __( 'Logout', 'bns-login' ) ) );
+		$logout_title = esc_attr( $logout );
+		$goto         = apply_filters( 'bns_login_goto', sprintf( __( 'Go to Dashboard', 'bns-login' ) ) );
+		$goto_title   = esc_attr( $goto );
+		$separator    = apply_filters( 'bns_login_separator', sprintf( __( ' &deg;&deg; ' ) ) );
+		$sep          = apply_filters( 'bns_login_sep', '<span class="bns-login-separator">' . $separator . '</span>' );
+		$login_url    = esc_url( apply_filters( 'bns_login_url', home_url( '/wp-admin/' ) ) );
 
 		/** @var bool $dashed_set - intended as boolean toggle to use dashicons instead of text */
 		$dashed_set = apply_filters( 'bns_login_dashed_set', false );
 		if ( $dashed_set ) {
-			$login       = esc_attr( apply_filters( 'bns_login_here', '<span class="dashicons dashicons-lock"></span>' ) );
-			$after_login = esc_html( apply_filters( 'bns_login_after_login', '<span class="dashicons dashicons-visibility"></span>' ) );
-			$logout      = esc_attr( apply_filters( 'bns_login_logout', '<span class="dashicons dashicons-dismiss"></span>' ) );
-			$goto        = esc_attr( apply_filters( 'bns_login_goto', '<span class="dashicons dashicons-dashboard"></span>' ) );
-			$sep         = esc_html( apply_filters( 'bns_login_sep', ' ' ) );
+			$login       = apply_filters( 'bns_login_here', '<span class="dashicons dashicons-lock"></span>' );
+			$after_login = apply_filters( 'bns_login_after_login', '<span class="dashicons dashicons-visibility"></span>' );
+			$logout      = apply_filters( 'bns_login_logout', '<span class="dashicons dashicons-dismiss"></span>' );
+			$goto        = apply_filters( 'bns_login_goto', '<span class="dashicons dashicons-dashboard"></span>' );
+			$sep         = apply_filters( 'bns_login_sep', ' ' );
 		}
 		/** End if - use dashicons */
 
@@ -309,7 +308,6 @@ class BNS_Login {
 		return $output;
 
 	}
-
 	/** End function - bns login main */
 
 
