@@ -3,7 +3,7 @@
 Plugin Name: BNS Login
 Plugin URI: http://buynowshop.com/plugins/bns-login/
 Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
-Version: 2.3.3.1
+Version: 2.4
 Text Domain: bns-login
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -21,7 +21,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        http://wordpress.org/extend/plugins/bns-login/
- * @version     2.3.3
+ * @version     2.4
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2014, Edward Caissie
  *
@@ -150,7 +150,7 @@ class BNS_Login {
 	 *
 	 * @version    2.4
 	 * @date       October 4, 2014
-	 * Add `dashicons` dependency to main style sheet providing access to the icons
+	 * Added `dashicons` dependency to main style sheet providing access to the icons
 	 */
 	function scripts_and_styles() {
 
@@ -189,6 +189,7 @@ class BNS_Login {
 	 * @package BNS_Login
 	 * @since   0.1
 	 *
+	 * @uses    add_filter
 	 * @uses    apply_filters
 	 * @uses    get_current_site
 	 * @uses    home_url
@@ -208,6 +209,10 @@ class BNS_Login {
 	 * @version 2.0.1
 	 * @date    February 2, 2013
 	 * Changed Multisite conditional to use `is_multisite`
+	 *
+	 * @version 2.4
+	 * @date    October 5, 2014
+	 * Added filter toggle to use `dashicons` instead of text
 	 */
 	function bns_login_main() {
 		/** Initialize $output - start with an empty string */
@@ -222,12 +227,31 @@ class BNS_Login {
 		 * @var $sep            string - $separator wrapper for styling purposes, etc. - just in case ...
 		 */
 		$login       = apply_filters( 'bns_login_here', sprintf( __( 'Log in here!', 'bns-login' ) ) );
+		$login_title = $login;
+
 		$after_login = apply_filters( 'bns_login_after_login', sprintf( __( 'You are logged in!', 'bns-login' ) ) );
-		$logout      = apply_filters( 'bns_login_logout', sprintf( __( 'Logout', 'bns-login' ) ) );
-		$goto        = apply_filters( 'bns_login_goto', sprintf( __( 'Go to Dashboard', 'bns-login' ) ) );
-		$separator   = apply_filters( 'bns_login_separator', sprintf( __( ' &deg;&deg; ' ) ) );
-		$sep         = apply_filters( 'bns_login_sep', '<span class="bns-login-separator">' . $separator . '</span>' );
-		$login_url   = apply_filters( 'bns_login_url', home_url( '/wp-admin/' ) );
+
+		$logout       = apply_filters( 'bns_login_logout', sprintf( __( 'Logout', 'bns-login' ) ) );
+		$logout_title = $logout;
+
+		$goto       = apply_filters( 'bns_login_goto', sprintf( __( 'Go to Dashboard', 'bns-login' ) ) );
+		$goto_title = $goto;
+
+		$separator = apply_filters( 'bns_login_separator', sprintf( __( ' &deg;&deg; ' ) ) );
+		$sep       = apply_filters( 'bns_login_sep', '<span class="bns-login-separator">' . $separator . '</span>' );
+
+		$login_url = apply_filters( 'bns_login_url', home_url( '/wp-admin/' ) );
+
+		/** @var bool $dashed_set - intended as boolean toggle to use dashicons instead of text */
+		$dashed_set = apply_filters( 'bns_login_dashed_set', false );
+		if ( $dashed_set ) {
+			$login       = apply_filters( 'bns_login_here', '<span class="dashicons dashicons-lock"></span>' );
+			$after_login = apply_filters( 'bns_login_after_login', '<span class="dashicons dashicons-visibility"></span>' );
+			$logout      = apply_filters( 'bns_login_logout', '<span class="dashicons dashicons-dismiss"></span>' );
+			$goto        = apply_filters( 'bns_login_goto', '<span class="dashicons dashicons-dashboard"></span>' );
+			$sep         = apply_filters( 'bns_login_sep', ' ' );
+		}
+		/** End if - use dashicons */
 
 		/** The real work gets done next ...  */
 		if ( is_user_logged_in() ) {
@@ -242,14 +266,22 @@ class BNS_Login {
 				$logout_url = wp_logout_url( home_url() );
 			}
 			/** End if - is multisite */
-			$output .= '<a class="bns-logout-url" href="' . $logout_url . '" title="' . $logout . '">' . $logout . '</a>' . $sep;
-			$output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $goto . '">' . $goto . '</a></div>';
+			$output .= '<a class="bns-logout-url" href="' . $logout_url . '" title="' . $logout_title . '">' . $logout . '</a>' . $sep;
+			$output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $goto_title . '">' . $goto . '</a></div>';
 		} else {
 			/** Display login message */
 			$output .= '<div id="bns-logged-out" class="bns-login">';
-			$output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $login . '">' . $login . '</a>';
+			$output .= '<a class="bns-login-url" href="' . $login_url . '" title="' . $login_title . '">' . $login . '</a>';
+
 			/** Show register link if new users allowed in site settings */
+			if ( $dashed_set ) {
+				add_filter( 'register', array(
+					$this,
+					'dashicons_register_link'
+				) );
+			}
 			$output .= wp_register( $sep, '', false );
+
 			$output .= '</div>';
 		}
 
@@ -258,7 +290,40 @@ class BNS_Login {
 		return $output;
 
 	}
+
 	/** End function - bns login main */
+
+
+	/**
+	 * Dashicons Register Link
+	 * Changes the `Register` test to a `key` icon
+	 *
+	 * @package BNS_Login
+	 * @since   2.4
+	 *
+	 * @uses    admin_url
+	 * @uses    apply_filters
+	 * @uses    esc_url
+	 * @uses    get_option
+	 * @uses    is_user_logged_in
+	 * @uses    wp_registration_url
+	 *
+	 * @return string
+	 */
+	function dashicons_register_link() {
+		if ( ! is_user_logged_in() ) {
+			if ( get_option( 'users_can_register' ) ) {
+				$link = apply_filters( 'bns_login_sep', ' ' ) . '<a href="' . esc_url( wp_registration_url() ) . '">' . '<span class="dashicons dashicons-admin-network"></span>' . '</a>';
+			} else {
+				$link = '';
+			}
+		} else {
+			$link = apply_filters( 'bns_login_sep', ' ' ) . '<a href="' . admin_url() . '">' . __( 'Site Admin' ) . '</a>';
+		}
+
+		return $link;
+	}
+	/** End function - dashicons register link */
 
 
 	/**

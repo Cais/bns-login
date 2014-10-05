@@ -76,7 +76,8 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.4 =
 * Released October 2014
-* Added `dashicons` dependency to the main stylesheet
+* Added filter `dashicons` dependency to the main stylesheet
+* Added toggle to use `dashicons` instead of text
 * Update copyright year references to include 2014 in all files
 * Minor whitespace, documentation, and code formatting changes
 
