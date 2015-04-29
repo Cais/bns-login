@@ -94,6 +94,7 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.5 =
 * Released April 2015
+* Added `bns_login_in_plugin_update_message` function
 * Clean-up extraneous documentation
 * Update copyright year and tested up to version
 
