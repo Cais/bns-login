@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only, shortcode
 Requires at least: 3.8
-Tested up to: 4.2
-Stable tag: 2.5
+Tested up to: 4.7
+Stable tag: 2.5.1
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -68,7 +68,7 @@ Please contact your theme's author if you need help with modifying your current 
 4. Logged out using dashicons.
 
 == Other Notes ==
-* Copyright 2009-2015  Edward Caissie  (email : edward.caissie@gmail.com)
+* Copyright 2009-2016  Edward Caissie  (email : edward.caissie@gmail.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 2,
@@ -92,6 +92,11 @@ Please contact your theme's author if you need help with modifying your current 
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.5.1 =
+* Released ...
+* Minor formatting updates.
+* Update copyright year references.
+
 = 2.5 =
 * Released April 2015
 * Added `bns_login_in_plugin_update_message` function
