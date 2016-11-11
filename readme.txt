@@ -94,6 +94,7 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 2.5.1 =
 * Released ...
+* Change class to singleton-style format and re-organized as needed.
 * Minor formatting updates.
 * Update copyright year references.
 

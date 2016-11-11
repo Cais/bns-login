@@ -46,6 +46,37 @@
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 class BNS_Login {
+
+	/**
+	 * Class instance.
+	 *
+	 * @package BNS_login
+	 * @since   0.1
+	 *
+	 * @var null $instance
+	 */
+	private static $instance = null;
+
+	/**
+	 * Create Instance
+	 *
+	 * Creates a single instance of the class
+	 *
+	 * @package BNS_Login
+	 * @since   0.1
+	 *
+	 * @return null|BNS_Login
+	 */
+	public static function create_instance() {
+
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+
+	}
+
 	/**
 	 * Constructor
 	 *
@@ -70,15 +101,42 @@ class BNS_Login {
 	 */
 	function __construct() {
 
-		/** Check installed WordPress version for compatibility */
+		// Check installed WordPress version for compatibility.
 		global $wp_version;
-		$exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.8, <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-login' );
+		$exit_ver_msg = __( 'BNS Login requires a minimum of WordPress 3.8. Please update!', 'bns-login' );
 		/** Version 3.8 is required for `dashicons` inclusion */
 		if ( version_compare( $wp_version, '3.8', '<' ) ) {
-			exit( $exit_ver_msg );
+			exit( esc_html( $exit_ver_msg ) );
 		}
 
-		/** Enqueue Scripts and Styles */
+		// Define location for BNS plugin customizations.
+		if ( ! defined( 'BNS_CUSTOM_PATH' ) ) {
+			define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
+		}
+		if ( ! defined( 'BNS_CUSTOM_URL' ) ) {
+			define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
+		}
+
+		// Add i18n compatibility.
+		load_plugin_textdomain( 'bns-login' );
+
+	}
+
+	/**
+	 * Init
+	 *
+	 * Initialize and fire off all of the hook calls.
+	 *
+	 * @package BNS_Login
+	 * @since   2.5.1
+	 *
+	 * @see     add_action()
+	 * @see     add_filter()
+	 * @see     add_shortcode()
+	 * @see     plugin_basename()
+	 */
+	function init() {
+		// Enqueue Scripts and Styles.
 		add_action(
 			'wp_enqueue_scripts', array(
 				$this,
@@ -86,10 +144,10 @@ class BNS_Login {
 			)
 		);
 
-		/** Add BNS Login to Footer */
+		// Add BNS Login to Footer.
 		add_action( 'wp_footer', array( $this, 'bns_login_output' ) );
 
-		/** Add Jetpack compatibility for infinite scroll */
+		// Add Jetpack compatibility for infinite scroll.
 		add_filter(
 			'infinite_scroll_credit', array(
 				$this,
@@ -97,26 +155,24 @@ class BNS_Login {
 			)
 		);
 
-		/** Add Shortcode functionality to text widgets */
+		// Add Shortcode functionality to text widgets.
 		add_action( 'widget_text', 'do_shortcode' );
 
-		/** Add Shortcode for this plugin */
+		// Add Shortcode for this plugin.
 		add_shortcode( 'bns_login', array( $this, 'bns_login_form' ) );
 
-		/** Add Plugin Row Meta details */
+		// Add Plugin Row Meta details.
 		add_filter( 'plugin_row_meta', array(
 			$this,
 			'bns_login_plugin_meta',
 			), 10, 2
 		);
 
-		/** Define location for BNS plugin customizations */
-		if ( ! defined( 'BNS_CUSTOM_PATH' ) ) {
-			define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
-		}
-		if ( ! defined( 'BNS_CUSTOM_URL' ) ) {
-			define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
-		}
+		// End function - in plugin update message.
+		add_action( 'in_plugin_update_message-' . plugin_basename( __FILE__ ), array(
+			$this,
+			'bns_login_in_plugin_update_message',
+		) );
 
 	}
 
@@ -511,126 +567,111 @@ class BNS_Login {
 		return $links;
 
 	}
-}
 
-/** New instance of the BNS Login class. */
-$bns_login = new BNS_Login();
+	/**
+	 * BNS Login Update Message
+	 *
+	 * @package BNS_Login
+	 * @since   2.5
+	 *
+	 * @see     get_transient
+	 * @see     is_wp_error
+	 * @see     set_transient
+	 * @see     wp_kses_post
+	 * @see     wp_remote_get
+	 *
+	 * @param array $args existing details.
+	 */
+	function bns_login_in_plugin_update_message( $args ) {
 
+		$bns_login_data = $this->plugin_data();
 
-/**
- * BNS Login Update Message
- *
- * @package BNS_Login
- * @since   2.5
- *
- * @see     get_transient
- * @see     is_wp_error
- * @see     set_transient
- * @see     wp_kses_post
- * @see     wp_remote_get
- *
- * @param array $args existing details.
- */
-function bns_login_in_plugin_update_message( $args ) {
+		$transient_name = 'bns_login_upgrade_notice_' . $args['Version'];
+		if ( false === ( $upgrade_notice = get_transient( $transient_name ) ) ) {
 
-	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-	$bns_login_data = get_plugin_data( __FILE__ );
+			/** Get the readme.txt file from WordPress. */
+			$response = wp_remote_get( 'https://plugins.svn.wordpress.org/bns-featured-tag/trunk/readme.txt' );
 
-	$transient_name = 'bns_login_upgrade_notice_' . $args['Version'];
-	if ( false === ( $upgrade_notice = get_transient( $transient_name ) ) ) {
+			if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
+				$matches = null;
+			}
+			$regexp         = '~==\s*Changelog\s*==\s*=\s*(.*)\s*=(.*)(=\s*' . preg_quote( $bns_login_data['Version'] ) . '\s*=|$)~Uis';
+			$upgrade_notice = '';
 
-		/** Get the readme.txt file from WordPress. */
-		$response = wp_remote_get( 'https://plugins.svn.wordpress.org/bns-featured-tag/trunk/readme.txt' );
+			if ( preg_match( $regexp, $response['body'], $matches ) ) {
+				$version = trim( $matches[1] );
+				$notices = (array) preg_split( '~[\r\n]+~', trim( $matches[2] ) );
 
-		if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
-			$matches = null;
-		}
-		$regexp         = '~==\s*Changelog\s*==\s*=\s*(.*)\s*=(.*)(=\s*' . preg_quote( $bns_login_data['Version'] ) . '\s*=|$)~Uis';
-		$upgrade_notice = '';
+				if ( version_compare( $bns_login_data['Version'], $version, '<' ) ) {
 
-		if ( preg_match( $regexp, $response['body'], $matches ) ) {
-			$version = trim( $matches[1] );
-			$notices = (array) preg_split( '~[\r\n]+~', trim( $matches[2] ) );
-
-			if ( version_compare( $bns_login_data['Version'], $version, '<' ) ) {
-
-				/** Start building message (inline styles). */
-				$upgrade_notice = '<style type="text/css">
+					/** Start building message (inline styles). */
+					$upgrade_notice = '<style type="text/css">
 							.bns_login_plugin_upgrade_notice { padding-top: 20px; }
 							.bns_login_plugin_upgrade_notice ul { width: 50%; list-style: disc; margin-left: 20px; margin-top: 0; }
 							.bns_login_plugin_upgrade_notice li { margin: 0; }
 						</style>';
 
-				/** Start building message (begin block). */
-				$upgrade_notice .= '<div class="bns_login_plugin_upgrade_notice">';
+					/** Start building message (begin block). */
+					$upgrade_notice .= '<div class="bns_login_plugin_upgrade_notice">';
 
-				$ul = false;
+					$ul = false;
 
-				foreach ( $notices as $index => $line ) {
+					foreach ( $notices as $index => $line ) {
 
-					if ( preg_match( '~^=\s*(.*)\s*=$~i', $line ) ) {
+						if ( preg_match( '~^=\s*(.*)\s*=$~i', $line ) ) {
 
-						if ( $ul ) {
-							$upgrade_notice .= '</ul><div style="clear: left;"></div>';
+							if ( $ul ) {
+								$upgrade_notice .= '</ul><div style="clear: left;"></div>';
+							}
+
+							$upgrade_notice .= '<hr/>';
+							continue;
+
 						}
-						/** End if - unordered list created */
 
-						$upgrade_notice .= '<hr/>';
-						continue;
+						/** Body of message. */
+						$return_value = '';
 
-					}
-					/** End if - non-blank line */
+						if ( preg_match( '~^\s*\*\s*~', $line ) ) {
 
-					/** Body of message. */
-					$return_value = '';
+							if ( ! $ul ) {
+								$return_value = '<ul">';
+								$ul           = true;
+							}
 
-					if ( preg_match( '~^\s*\*\s*~', $line ) ) {
+							$line = preg_replace( '~^\s*\*\s*~', '', htmlspecialchars( $line ) );
+							$return_value .= '<li style=" ' . ( 0 === $index % 2 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
 
-						if ( ! $ul ) {
-							$return_value = '<ul">';
-							$ul           = true;
-						}
-						/** End if - unordered list not started */
-
-						$line = preg_replace( '~^\s*\*\s*~', '', htmlspecialchars( $line ) );
-						$return_value .= '<li style=" ' . ( 0 === $index % 2 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
-
-					} else {
-
-						if ( $ul ) {
-							$return_value = '</ul><div style="clear: left;"></div>';
-							$return_value .= '<p>' . $line . '</p>';
-							$ul = false;
 						} else {
-							$return_value .= '<p>' . $line . '</p>';
+
+							if ( $ul ) {
+								$return_value = '</ul><div style="clear: left;"></div>';
+								$return_value .= '<p>' . $line . '</p>';
+								$ul = false;
+							} else {
+								$return_value .= '<p>' . $line . '</p>';
+							}
 						}
-						/** End if - unordered list started */
+
+						$upgrade_notice .= wp_kses_post( preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="${2}">${1}</a>', $return_value ) );
 
 					}
-					/** End if - non-blank line */
 
-					$upgrade_notice .= wp_kses_post( preg_replace( '~\[([^\]]*)\]\(([^\)]*)\)~', '<a href="${2}">${1}</a>', $return_value ) );
+					$upgrade_notice .= '</div>';
 
 				}
-				/** End foreach - line parsing */
-
-				$upgrade_notice .= '</div>';
-
 			}
-			/** End if - version compare */
+
+			/** Set transient - minimize calls to WordPress */
+			set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
 
 		}
-		/** End if - response message exists */
 
-		/** Set transient - minimize calls to WordPress */
-		set_transient( $transient_name, $upgrade_notice, DAY_IN_SECONDS );
+		echo $upgrade_notice;
 
 	}
-	/** End if - transient check */
-
-	echo $upgrade_notice;
-
 }
 
-/** End function - in plugin update message */
-add_action( 'in_plugin_update_message-' . plugin_basename( __FILE__ ), 'bns_login_in_plugin_update_message' );
+/** Create new instance and initialize the BNS Login class. */
+$bns_login = new BNS_Login();
+$bns_login->init();
