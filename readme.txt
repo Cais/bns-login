@@ -93,10 +93,11 @@ Please stay current with your WordPress installation, your active theme, and you
 
 == Changelog ==
 = 2.5.1 =
-* Released ...
-* Change class to singleton-style format and re-organized as needed.
-* Minor formatting updates.
-* Update copyright year references.
+* Released November 2016
+* Changed class to singleton-style format and re-organized as needed.
+* Added minor formatting changes.
+* Updated copyright year references.
+* Updated i18n compatibility.
 
 = 2.5 =
 * Released April 2015
