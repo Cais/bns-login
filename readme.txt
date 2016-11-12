@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com/
 Tags: login, dashboard, admin, footer, plugin-only, shortcode
 Requires at least: 3.8
 Tested up to: 4.7
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -92,8 +92,12 @@ Please contact your theme's author if you need help with modifying your current 
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 2.5.2 =
+* Released November 2016.
+* Add English (Canadian) translation files.
+
 = 2.5.1 =
-* Released November 2016
+* Released November 2016.
 * Changed class to singleton-style format and re-organized as needed.
 * Added minor formatting changes.
 * Updated copyright year references.

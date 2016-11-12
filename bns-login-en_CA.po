@@ -1,0 +1,108 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BNS Login\n"
+"POT-Creation-Date: 2016-11-12 13:50-0500\n"
+"PO-Revision-Date: 2016-11-12 13:50-0500\n"
+"Last-Translator: Edward Caissie <edward.caissie@gmail.com>\n"
+"Language-Team: Edward Caissie <edward.caissie@gmail.com>\n"
+"Language: en_CA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-WPHeader: bns-login.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: bns-login.php:106
+msgid "BNS Login requires a minimum of WordPress 3.8. Please update!"
+msgstr "BNS Login requires a minimum of WordPress 3.8. Please update!"
+
+#: bns-login.php:296
+msgid "Log in here!"
+msgstr "Log in here!"
+
+#: bns-login.php:298
+msgid "You are logged in!"
+msgstr "You are logged in!"
+
+#: bns-login.php:299
+msgid "Logout"
+msgstr "Logout"
+
+#: bns-login.php:301
+msgid "Go to Dashboard"
+msgstr "Go to Dashboard"
+
+#: bns-login.php:385
+msgid "Site Admin"
+msgstr "Site admin"
+
+#: bns-login.php:445
+msgid "Proudly powered by WordPress"
+msgstr "Proudly powered by WordPress"
+
+#: bns-login.php:446
+#, php-format
+msgid "Theme: %1$s."
+msgstr "Theme: %1$s."
+
+#: bns-login.php:492
+msgid "Username"
+msgstr "Username"
+
+#: bns-login.php:493
+msgid "Password"
+msgstr "Password"
+
+#: bns-login.php:494
+msgid "Remember Me"
+msgstr "Remember me"
+
+#: bns-login.php:495
+msgid "Log In"
+msgstr "Log In"
+
+#: bns-login.php:559
+msgid "Fork on GitHub"
+msgstr "Fork on GitHub"
+
+#: bns-login.php:560
+msgid "Grant a wish?"
+msgstr "Grant a wish?"
+
+#: bns-login.php:561
+msgid "WordPress Support Forums"
+msgstr "WordPress Support Forums"
+
+#. Plugin Name of the plugin/theme
+msgid "BNS Login"
+msgstr "BNS Login"
+
+#. Plugin URI of the plugin/theme
+msgid "http://buynowshop.com/plugins/bns-login/"
+msgstr "http://buynowshop.com/plugins/bns-login/"
+
+#. Description of the plugin/theme
+msgid ""
+"A simple plugin providing a link to the dashboard; and, a method to log in "
+"and out of your blog in the footer of the theme. This is ideal for those not "
+"wanting to use the meta widget/code links."
+msgstr ""
+"A simple plugin providing a link to the dashboard; and, a method to log in "
+"and out of your blog in the footer of the theme. This is ideal for those not "
+"wanting to use the meta widget/code links."
+
+#. Author of the plugin/theme
+msgid "Edward Caissie"
+msgstr "Edward Caissie"
+
+#. Author URI of the plugin/theme
+msgid "http://edwardcaissie.com/"
+msgstr "http://edwardcaissie.com/"

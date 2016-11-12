@@ -9,7 +9,7 @@
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        https://wordpress.org/plugins/bns-login/
- * @version     2.5.1
+ * @version     2.5.2
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2009-2016, Edward Caissie
  *
@@ -38,7 +38,7 @@
  * Plugin Name: BNS Login
  * Plugin URI: http://buynowshop.com/plugins/bns-login/
  * Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
- * Version: 2.5.1
+ * Version: 2.5.2
  * Text Domain: bns-login
  * Author: Edward Caissie
  * Author URI: http://edwardcaissie.com/
@@ -293,14 +293,14 @@ class BNS_Login {
 		 *
 		 * @internal *_title is used to preserve the default text strings if dashicons are used
 		 */
-		$login        = apply_filters( 'bns_login_here', sprintf( __( 'Log in here!', 'bns-login' ) ) );
+		$login        = apply_filters( 'bns_login_here', __( 'Log in here!', 'bns-login' ) );
 		$login_title  = esc_attr( $login );
-		$after_login  = apply_filters( 'bns_login_after_login', sprintf( __( 'You are logged in!', 'bns-login' ) ) );
-		$logout       = apply_filters( 'bns_login_logout', sprintf( __( 'Logout', 'bns-login' ) ) );
+		$after_login  = apply_filters( 'bns_login_after_login', __( 'You are logged in!', 'bns-login' ) );
+		$logout       = apply_filters( 'bns_login_logout', __( 'Logout', 'bns-login' ) );
 		$logout_title = esc_attr( $logout );
-		$goto         = apply_filters( 'bns_login_goto', sprintf( __( 'Go to Dashboard', 'bns-login' ) ) );
+		$goto         = apply_filters( 'bns_login_goto', __( 'Go to Dashboard', 'bns-login' ) );
 		$goto_title   = esc_attr( $goto );
-		$separator    = apply_filters( 'bns_login_separator', sprintf( __( ' &deg;&deg; ' ) ) );
+		$separator    = apply_filters( 'bns_login_separator', ' &deg;&deg; ' );
 		$sep          = apply_filters( 'bns_login_sep', '<span class="bns-login-separator">' . $separator . '</span>' );
 		$login_url    = esc_url( apply_filters( 'bns_login_url', home_url( '/wp-admin/' ) ) );
 
