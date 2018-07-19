@@ -9,9 +9,9 @@
  * @link        http://buynowshop.com/plugins/bns-login/
  * @link        https://github.com/Cais/bns-login/
  * @link        https://wordpress.org/plugins/bns-login/
- * @version     2.5.2
+ * @version     2.6
  * @author      Edward Caissie <edward.caissie@gmail.com>
- * @copyright   Copyright (c) 2009-2016, Edward Caissie
+ * @copyright   Copyright (c) 2009-2018, Edward Caissie
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2, as published by the
@@ -38,14 +38,14 @@
  * Plugin Name: BNS Login
  * Plugin URI: http://buynowshop.com/plugins/bns-login/
  * Description: A simple plugin providing a link to the dashboard; and, a method to log in and out of your blog in the footer of the theme. This is ideal for those not wanting to use the meta widget/code links.
- * Version: 2.5.2
+ * Version: 2.6
  * Text Domain: bns-login
  * Author: Edward Caissie
  * Author URI: http://edwardcaissie.com/
  * License: GNU General Public License v2
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
-class BNS_Login {
+class Class_BNS_Login {
 
 	/**
 	 * Class instance.
@@ -65,7 +65,7 @@ class BNS_Login {
 	 * @package BNS_Login
 	 * @since   0.1
 	 *
-	 * @return null|BNS_Login
+	 * @return null|Class_BNS_Login
 	 */
 	public static function create_instance() {
 
@@ -99,7 +99,7 @@ class BNS_Login {
 	 * Updated required version check to 3.8 for `dashicons` inclusion
 	 * Defined `BNS_CUSTOM_PATH` and `BNS_CUSTOM_URL` for customizations
 	 */
-	function __construct() {
+	public function __construct() {
 
 		// Check installed WordPress version for compatibility.
 		global $wp_version;
@@ -135,7 +135,7 @@ class BNS_Login {
 	 * @see     add_shortcode()
 	 * @see     plugin_basename()
 	 */
-	function init() {
+	public function init() {
 		// Enqueue Scripts and Styles.
 		add_action(
 			'wp_enqueue_scripts', array(
@@ -165,8 +165,7 @@ class BNS_Login {
 		add_filter( 'plugin_row_meta', array(
 			$this,
 			'bns_login_plugin_meta',
-			), 10, 2
-		);
+		), 10, 2 );
 
 		// End function - in plugin update message.
 		add_action( 'in_plugin_update_message-' . plugin_basename( __FILE__ ), array(
@@ -186,7 +185,7 @@ class BNS_Login {
 	 * @package    BNS_Login
 	 * @since      1.6
 	 *
-	 * @see        BNS_Login::plugin_data
+	 * @see        Class_BNS_Login::plugin_data
 	 * @see        plugin_dir_path
 	 * @see        plugin_dir_url
 	 * @see        wp_enqueue_style
@@ -208,7 +207,7 @@ class BNS_Login {
 	 * Added `dashicons` dependency to main style sheet providing access to the icons
 	 * Implement the use of `../wp-content/bns-customs/` for customizations
 	 */
-	function scripts_and_styles() {
+	protected function scripts_and_styles() {
 
 		$bns_login_data = $this->plugin_data();
 
@@ -260,7 +259,7 @@ class BNS_Login {
 	 *
 	 * @internal    Opus Primus (v1.3+) contains code to activate Dashicons
 	 *
-	 * @return  mixed|string|void
+	 * @return  mixed|string
 	 *
 	 * @version     2.0
 	 * @date        November 19, 2012
@@ -277,7 +276,7 @@ class BNS_Login {
 	 * Added some basic sanitization to URL components and structures
 	 * Added `is_ssl()` to detect correct protocol for logout return URL
 	 */
-	function bns_login_main() {
+	protected function bns_login_main() {
 
 		/** Initialize $output - start with an empty string */
 		$output = '';
@@ -371,7 +370,7 @@ class BNS_Login {
 	 *
 	 * @return string
 	 */
-	function dashicons_register_link() {
+	protected function dashicons_register_link() {
 
 		if ( ! is_user_logged_in() ) {
 
@@ -406,7 +405,7 @@ class BNS_Login {
 	 * Removed parameters - see changes to `bns_login_main`
 	 * Add empty hooks before and after main output
 	 */
-	function bns_login_output() {
+	protected function bns_login_output() {
 
 		/** Add empty hook before output */
 		do_action( 'bns_login_before_output' );
@@ -428,7 +427,7 @@ class BNS_Login {
 	 * @package BNS_Login
 	 * @since   2.3
 	 *
-	 * @see     BNS_Login::bns_login_main
+	 * @see     Class_BNS_Login::bns_login_main
 	 * @see     __
 	 * @see     wp_get_theme
 	 *
@@ -439,10 +438,11 @@ class BNS_Login {
 	 * Added specific id wrappers for the credit details
 	 * Linked Theme reference to Theme URI
 	 */
-	function jetpack_infinite_scroll_compatibility() {
+	protected function jetpack_infinite_scroll_compatibility() {
 
-		$credits = '<div id="infinite-scroll-wordpress-credits">';
+		$credits  = '<div id="infinite-scroll-wordpress-credits">';
 		$credits .= '<a href="http://wordpress.org/" rel="generator">' . __( 'Proudly powered by WordPress', 'bns_login' ) . '</a> ';
+		// Translators: Placeholder is the theme name being used in the credits.
 		$credits .= sprintf( '<span id="infinite-scroll-theme-credits"><a href="' . wp_get_theme()->get( 'ThemeURI' ) . '">' . __( 'Theme: %1$s.', 'bns-login' ) . '</a></span>', wp_get_theme() );
 		$credits .= '</div><!-- #infinite-scroll-wordpress-credits -->';
 		$credits .= $this->bns_login_main();
@@ -482,7 +482,7 @@ class BNS_Login {
 	 * @date     July 28, 2013
 	 * Added dynamic filter parameter `bns_login`
 	 */
-	function bns_login_form( $args ) {
+	protected function bns_login_form( $args ) {
 
 		$defaults = shortcode_atts(
 			array(
@@ -521,10 +521,10 @@ class BNS_Login {
 	 *
 	 * @return array
 	 */
-	function plugin_data() {
+	protected function plugin_data() {
 
 		/** Call the wp-admin plugin code */
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		/** The plugin header data. */
 		$plugin_data = get_plugin_data( __FILE__ );
 
@@ -548,7 +548,7 @@ class BNS_Login {
 	 *
 	 * @return  array $links
 	 */
-	function bns_login_plugin_meta( $links, $file ) {
+	protected function bns_login_plugin_meta( $links, $file ) {
 
 		$plugin_file = plugin_basename( __FILE__ );
 
@@ -582,7 +582,7 @@ class BNS_Login {
 	 *
 	 * @param array $args existing details.
 	 */
-	function bns_login_in_plugin_update_message( $args ) {
+	protected function bns_login_in_plugin_update_message( $args ) {
 
 		$bns_login_data = $this->plugin_data();
 
@@ -639,15 +639,15 @@ class BNS_Login {
 								$ul           = true;
 							}
 
-							$line = preg_replace( '~^\s*\*\s*~', '', htmlspecialchars( $line ) );
+							$line          = preg_replace( '~^\s*\*\s*~', '', htmlspecialchars( $line ) );
 							$return_value .= '<li style=" ' . ( 0 === $index % 2 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
 
 						} else {
 
 							if ( $ul ) {
-								$return_value = '</ul><div style="clear: left;"></div>';
+								$return_value  = '</ul><div style="clear: left;"></div>';
 								$return_value .= '<p>' . $line . '</p>';
-								$ul = false;
+								$ul            = false;
 							} else {
 								$return_value .= '<p>' . $line . '</p>';
 							}
@@ -673,5 +673,5 @@ class BNS_Login {
 }
 
 /** Create new instance and initialize the BNS Login class. */
-$bns_login = new BNS_Login();
+$bns_login = new Class_BNS_Login();
 $bns_login->init();
